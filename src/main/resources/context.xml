@@ -19,7 +19,7 @@
     <context:component-scan base-package="application"/>
     <tx:annotation-driven transaction-manager="resourcesTransactionManager"/>
 
-<!--    <import resource="classpath:spring-security.xml" />-->
+    <import resource="classpath:spring-security.xml" />
 
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">

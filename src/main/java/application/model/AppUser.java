@@ -5,6 +5,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "APPUSER")
@@ -23,4 +25,10 @@ public class AppUser {
     private String email;
     @NotNull
     private String password;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_ROLES",
+            joinColumns = @JoinColumn(name="id_AppUser"),
+            inverseJoinColumns = @JoinColumn(name="id_role"))
+    private List<Role> roles = new ArrayList<>();
 }
