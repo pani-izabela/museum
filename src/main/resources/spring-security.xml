@@ -16,6 +16,7 @@
         <intercept-url pattern="/admin/*" access="hasAuthority('admin')"/>
 
         <intercept-url pattern="/index" access="permitAll()"/>
+        <intercept-url pattern="/hello" access="permitAll()"/>
 
 
        <!-- &lt;!&ndash;poniżej podajemy na której z podstron znajduje się nasz formularz logowania&ndash;&gt;
