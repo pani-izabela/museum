@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import spock.lang.Specification
 
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest
 class ControllersTest extends Specification{
     @Autowired
@@ -17,14 +17,14 @@ class ControllersTest extends Specification{
 
     def "/hello returns hello world!"(){
         expect:
-        mvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/hello"))
+        mvc.perform(MockMvcRequestBuilders.get("/hello"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andReturn().response.contentAsString.toLowerCase() == "hello world!"
     }
 
     def "when get is performed then the response has status 200 and content is 'index'"() {
         expect: "Status is 200 and the response is 'Hello world!'"
-        mvc.perform(MockMvcRequestBuilders.get("http://localhost:8080//index"))
+        String response = mvc.perform(MockMvcRequestBuilders.get("/index"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().response.contentAsString == "index"
     }
