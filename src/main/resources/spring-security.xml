@@ -17,24 +17,28 @@
 
         <intercept-url pattern="/index" access="permitAll()"/>
         <intercept-url pattern="/hello" access="permitAll()"/>
+        <intercept-url pattern="/login" access="permitAll()"/>
+        <intercept-url pattern="/register" access="permitAll()"/>
+        <intercept-url pattern="/client/register" access="permitAll()"/>
+        <intercept-url pattern="/employee/register" access="permitAll()"/>
 
 
-       <!-- &lt;!&ndash;poniżej podajemy na której z podstron znajduje się nasz formularz logowania&ndash;&gt;
-        <form-login login-page="/customer/login"
+        <!--poniżej podajemy na której z podstron znajduje się nasz formularz logowania-->
+        <form-login login-page="/login"
                     login-processing-url="/performLogin"
                     default-target-url="/index"
                     username-parameter="email"
-                    password-parameter="pswd"
+                    password-parameter="pass"
                     authentication-failure-url="/login/error"
         />
 
-        <logout logout-success-url="/index"
+        <!--<logout logout-success-url="/index"
                 logout-url="/performLogout"
                 invalidate-session="true"
                 delete-cookies="JSESSIONID"
-        />
+        />-->
 
-        <csrf disabled="true"/>-->
+        <csrf disabled="true"/>
     </http>
 
     <authentication-manager>

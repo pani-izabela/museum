@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/main.css" type="text/css">
+    <script src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    <title>Rejestracja pracownika</title>
+</head>
+<body>
+<div id="container" class="container h-100 p-3">
+    <div class="row justify-content-center align-items-center">
+        <h3>Rejestracja pracownika</h3>
+    </div>
+
+    <form id="employee-register-form">
+        <div class="row justify-content-center">
+            <div>
+                <div id="personalData">
+                    <div class="col p-3" style="text-align: center">
+                        <h5>Dane personalne</h5>
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control space-down" id="firstname" placeholder="imię"
+                               style="text-align: center">
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control space-down" id="lastname" placeholder="nazwisko"
+                               style="text-align: center">
+                    </div>
+                    <div class="form-group col">
+                        <input type="email" class="form-control" id="email" placeholder="email" style="text-align: center">
+                    </div>
+                    <div class="form-group col">
+                        <input type="password" class="form-control" id="pass" placeholder="hasło"
+                               style="text-align: center">
+                    </div>
+                </div>
+                <div id="businessData">
+                    <div class="col p-3" style="text-align: center">
+                        <h5>Dane służbowe</h5>
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control" id="accountNo" placeholder="nr konta"
+                               style="text-align: center">
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control" id="position" placeholder="stanowisko"
+                               style="text-align: center">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div id="addressData">
+                    <div class="col p-3" style="text-align: center">
+                        <h5>Dane adresowe</h5>
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control" id="street" placeholder="ulica" style="text-align: center">
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control" id="houseNo" placeholder="nr domu"
+                               style="text-align: center">
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control" id="apartmentNo" placeholder="nr lokalu"
+                               style="text-align: center">
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control" id="city" placeholder="miasto" style="text-align: center">
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control" id="postcode" placeholder="kod pocztowy"
+                               style="text-align: center">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-5 p-3">
+                <a href="/register" class="btn btn-light float-left">Wróć</a>
+                <button type="button" class="btn-dark float-right">Rejestracja</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="footerOnPage"></div>
+</body>
+</html>

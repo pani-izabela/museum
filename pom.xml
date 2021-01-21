@@ -169,7 +169,7 @@
                 <executions>
                     <execution>
                         <goals>
-<!--                            <goal>compile</goal>-->
+<!--                            <goal>compile</goal> Wyłączone, bo ma mieć zastosowanie tylko w testach-->
                             <goal>testCompile</goal>
                         </goals>
                     </execution>

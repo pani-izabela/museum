@@ -24,7 +24,7 @@ class ControllersTest extends Specification{
 
     def "when get is performed then the response has status 200 and content is 'index'"() {
         expect: "Status is 200 and the response is 'Hello world!'"
-        String response = mvc.perform(MockMvcRequestBuilders.get("/index"))
+        mvc.perform(MockMvcRequestBuilders.get("/index"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().response.contentAsString == "index"
     }

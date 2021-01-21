@@ -1,19 +1,24 @@
 package application.controller
 
-import application.controller.MainController
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
 @SpringBootTest
 class SpringTest extends Specification{
     @Autowired
-    private MainController mainController
+    private ViewController viewController
+    @Autowired
+    private HelloController helloController
 
-    def "when context is loaded then all expected beans are created"() {
-        expect: "the MainController is created"
-        mainController != null
+    def "when context is loaded then ViewController bean is created"() {
+        expect: "the ViewController is created"
+        viewController != null
     }
 
+    def "when context is loaded then HelloController bean is created"() {
+        expect: "the HelloController is created"
+        helloController != null
+    }
 }
