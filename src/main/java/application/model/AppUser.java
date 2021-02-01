@@ -2,20 +2,26 @@ package application.model;
 
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "APPUSER")
-@Data
-public class AppUser {
+@Setter
+@Getter
+@NoArgsConstructor
+public class AppUser implements Serializable {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private long id;
     @NotNull
     private String name;
     @NotNull
@@ -28,7 +34,7 @@ public class AppUser {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLES",
-            joinColumns = @JoinColumn(name="id_AppUser"),
+            joinColumns = @JoinColumn(name="id_appUser"),
             inverseJoinColumns = @JoinColumn(name="id_role"))
     private List<Role> roles = new ArrayList<>();
 }
