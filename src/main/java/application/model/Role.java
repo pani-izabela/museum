@@ -17,6 +17,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 public class Role implements Serializable {
+
     @Id
     @NotNull
     //@GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -39,6 +39,27 @@ public class AppUserServiceImpl implements AppUserService{
         return testDAO.addTest(test);
     }
 
+    @Override
+    public List<AppUser> getAppUsers() {
+        return appUserDAO.getAppUsers();
+    }
+
+    @Override
+    public List<Test> getTests() {
+        return appUserDAO.getTests();
+    }
+
+
+    @Override
+    public AppUser getAppUser(int id) {
+        return appUserDAO.findById(id);
+    }
+
+    @Override
+    public void deleteAppUser(long id) {
+        appUserDAO.deleteById(id);
+    }
+
     //--------- metody prywatne ----------
     private AppUser prepareAppUserData(AppUserRegisterDTO appUserRegisterDTO, AppUser appUser) {
         appUser.setEmail(appUserRegisterDTO.getEmail());
