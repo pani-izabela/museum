@@ -10,8 +10,8 @@
          https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <mvc:default-servlet-handler/>
-    <context:component-scan base-package="application" />
-    <mvc:annotation-driven/>
+<!--    <context:component-scan base-package="application" />-->
+<!--    <mvc:annotation-driven/>-->
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">

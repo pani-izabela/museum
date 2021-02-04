@@ -13,28 +13,24 @@
        http://www.springframework.org/schema/mvc/spring-mvc.xsd"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <context:annotation-config />
-    <mvc:annotation-driven/>
-
     <context:component-scan base-package="application"/>
+    <context:annotation-config />
+
+    <mvc:annotation-driven/>
     <tx:annotation-driven transaction-manager="resourcesTransactionManager"/>
 
     <import resource="classpath:spring-security.xml" />
 
-
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/museumDB"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="Prze8102!"/>
-    </bean>
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="punit"/>
         <property name="packagesToScan" value="application"/>
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="true"/>
+            </bean>
         </property>
         <property name="jpaProperties">
             <props>
@@ -42,14 +38,20 @@
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
-                <prop key="hibernate.hbm2ddl">true</prop>
+<!--                <prop key="hibernate.hbm2ddl">true</prop>-->
             </props>
         </property>
     </bean>
-    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-    <!--<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />-->
+
     <bean id="resourcesTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/museumDB"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="Prze8102!"/>
     </bean>
 
 </beans>
