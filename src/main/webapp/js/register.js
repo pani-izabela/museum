@@ -10,8 +10,8 @@ function prepareRegisterClientData() {
     else {
         registerData = {
             //nazwy pól AppUserRegisterDTO/AppUser
-            name: firstnameField,
-            surname: lastnameField,
+            firstName: firstnameField,
+            lastName: lastnameField,
             email: emailField,
             password: passField
         }
@@ -28,30 +28,6 @@ function register(data) {
         success: function () {
             alert('Rejestracja się powiodła');
             window.location.href = "http://localhost:8080/login";
-        },
-        error: function () {
-            alert('Nie udało się zarejestrować');
-        }
-    })
-}
-
-function prepareTest() {
-    let emailField = $('#email').val();
-    let registerData;
-    registerData = {
-        email: emailField
-    }
-    tested(registerData);
-}
-
-function tested(data) {
-    $.ajax({
-        url: "http://localhost:8080/client/test",
-        method: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(data),
-        success: function () {
-            alert('Udało się');
         },
         error: function () {
             alert('Nie udało się zarejestrować');

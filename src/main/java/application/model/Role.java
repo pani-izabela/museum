@@ -20,7 +20,6 @@ public class Role implements Serializable {
 
     @Id
     @NotNull
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     @NotNull
     private String name;

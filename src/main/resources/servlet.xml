@@ -11,6 +11,7 @@
 
     <mvc:default-servlet-handler/>
 <!--    <context:component-scan base-package="application" />-->
+<!--    niżej włączona linia powodowała, że nie robily się inserty do db-->
 <!--    <mvc:annotation-driven/>-->
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

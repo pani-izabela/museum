@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 //@Controller //zmieniłam na @RestControler, bo miałam problem w controllersTest i to mi pomogło
 //@RestController
+/*ControllersTest działa tylko jeśli w ViewController używam adnotacji @RestController
+* Ale jeśłi używam @RestControler mam problem ze odpalaniem widoków.
+* Docelowo dobrze byłoby zmienić @Controller na @RestController - TODO*/
 @Controller
 public class ViewController {
 

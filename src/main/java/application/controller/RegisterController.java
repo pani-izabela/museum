@@ -1,8 +1,7 @@
 package application.controller;
 
+import application.dto.AppUserRegisterDTO;
 import application.model.AppUser;
-import application.model.Role;
-import application.model.Test;
 import application.service.AppUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,14 +16,14 @@ public class RegisterController {
         this.appUserService = appUserService;
     }
 
-    @PostMapping(value = "/client/addAppUser")
+    /*@PostMapping(value = "/client/addAppUser")
     public AppUser clientRegister(@RequestBody AppUser appUser){
         return appUserService.registerClient(appUser);
-    }
+    }*/
 
-    @PostMapping(value = "/client/test")
-    public Test clientTest(@RequestBody Test test){
-        return appUserService.testClient(test);
+    @PostMapping(value = "/client/addAppUser")
+    public AppUser clientRegister(@RequestBody AppUserRegisterDTO appUserRegisterDTO){
+        return appUserService.registerClient(appUserRegisterDTO);
     }
 
     @GetMapping(value = "/getAppUsers")
@@ -38,12 +37,7 @@ public class RegisterController {
     }
 
     @DeleteMapping(value = "/deleteAppUser/{id}")
-    public void deleteAppUser(@PathVariable long id){
+    public void deleteAppUser(@PathVariable int id){
         appUserService.deleteAppUser(id);
-    }
-
-    @GetMapping(value = "/getTests")
-    public List<Test> getTests(){
-        return appUserService.getTests();
     }
 }
