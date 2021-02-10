@@ -13,10 +13,14 @@
        http://www.springframework.org/schema/mvc/spring-mvc.xsd"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+<!--    XML configuration elements of Spring. Dzięki nim aktywujemy adnotacje springowe-->
+<!--    componen-scan - wykrywa adnotacje poprzez skanowanie pakietów-->
     <context:component-scan base-package="application"/>
     <context:annotation-config />
 
+<!--    odpowiada za ‘włączenie’ adnotacji i obsługi MVC-->
     <mvc:annotation-driven/>
+<!--    umożliwiają konfigurację zachowań transakcyjnych na podstawie adnotacji-->
     <tx:annotation-driven transaction-manager="resourcesTransactionManager"/>
 
     <import resource="classpath:spring-security.xml" />

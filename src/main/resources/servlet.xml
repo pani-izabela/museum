@@ -8,7 +8,7 @@
          http://www.springframework.org/schema/context/spring-context-4.0.xsd
          http://www.springframework.org/schema/mvc
          https://www.springframework.org/schema/mvc/spring-mvc.xsd">
-
+<!--dzięki temu wszystkie żądania są przekazane do domyślnego servletu-->
     <mvc:default-servlet-handler/>
 <!--    <context:component-scan base-package="application" />-->
 <!--    niżej włączona linia powodowała, że nie robily się inserty do db-->

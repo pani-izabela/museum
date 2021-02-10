@@ -1,9 +1,14 @@
 package application.service;
 
+import application.dao.AddressDAO;
 import application.dao.AppUserDAO;
-import application.dto.AppUserRegisterDTO;
-import application.model.AppUser;
-import application.model.Role;
+import application.dao.ClientDAO;
+import application.dao.EmployeeDAO;
+import application.dto.ClientRegisterDTO;
+import application.dto.EmployeeRegisterDTO;
+import application.model.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,16 +18,31 @@ import java.util.List;
 public class AppUserServiceImpl implements AppUserService{
 
     private AppUserDAO appUserDAO;
+    private ClientDAO clientDAO;
+    private EmployeeDAO employeeDAO;
+    private AddressDAO addressDAO;
 
-    public AppUserServiceImpl(AppUserDAO appUserDAO) {
+    public AppUserServiceImpl(AppUserDAO appUserDAO, ClientDAO clientDAO, EmployeeDAO employeeDAO, AddressDAO addressDAO) {
         this.appUserDAO = appUserDAO;
+        this.clientDAO = clientDAO;
+        this.employeeDAO = employeeDAO;
+        this.addressDAO = addressDAO;
     }
 
     @Override
-    public AppUser registerClient(AppUserRegisterDTO appUserRegisterDTO) {
-        AppUser appUser = prepareAppUserData(appUserRegisterDTO, new AppUser());
+    public ResponseEntity<Object> registerClient(ClientRegisterDTO clientRegisterDTO) {
+        AppUser appUser = prepareAppUserDataClient(clientRegisterDTO, new AppUser());
         appUser.setRoles(addClientRole());
-        return appUserDAO.addAppUser(appUser);
+        addClient(appUser);
+        return new ResponseEntity<>(appUser, HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<Object> registerEmployee(EmployeeRegisterDTO employeeRegisterDTO) {
+        AppUser appUser = prepareAppUserDataEmployee(employeeRegisterDTO, new AppUser());
+        appUser.setRoles(addEmployeeRole());
+        addEmployee(employeeRegisterDTO, appUser);
+        return new ResponseEntity<>(appUser, HttpStatus.CREATED);
     }
 
     @Override
@@ -41,11 +61,18 @@ public class AppUserServiceImpl implements AppUserService{
     }
 
     //--------- metody prywatne ----------
-    private AppUser prepareAppUserData(AppUserRegisterDTO appUserRegisterDTO, AppUser appUser) {
-        appUser.setEmail(appUserRegisterDTO.getEmail());
-        appUser.setPassword(appUserRegisterDTO.getPassword());
-        appUser.setName(appUserRegisterDTO.getFirstName());
-        appUser.setSurname(appUserRegisterDTO.getLastName());
+    private AppUser prepareAppUserDataClient(ClientRegisterDTO clientRegisterDTO, AppUser appUser) {
+        appUser.setEmail(clientRegisterDTO.getEmail());
+        appUser.setPassword(clientRegisterDTO.getPassword());
+        appUser.setName(clientRegisterDTO.getFirstName());
+        appUser.setSurname(clientRegisterDTO.getLastName());
+        return appUser;
+    }
+    private AppUser prepareAppUserDataEmployee(EmployeeRegisterDTO employeeRegisterDTO, AppUser appUser) {
+        appUser.setEmail(employeeRegisterDTO.getEmail());
+        appUser.setPassword(employeeRegisterDTO.getPassword());
+        appUser.setName(employeeRegisterDTO.getFirstName());
+        appUser.setSurname(employeeRegisterDTO.getLastName());
         return appUser;
     }
 
@@ -56,5 +83,42 @@ public class AppUserServiceImpl implements AppUserService{
         roleClient.setName("client");
         list.add(roleClient);
         return list;
+    }
+
+    private List<Role> addEmployeeRole(){
+        List<Role> list = new ArrayList();
+        Role roleEmployee = new Role();
+        roleEmployee.setId(3);
+        roleEmployee.setName("employee");
+        list.add(roleEmployee);
+        return list;
+    }
+
+    private Client addClient(AppUser appUser){
+        Client client = new Client();
+        client.setAppUser(appUser);
+        clientDAO.addClient(client);
+        return client;
+    }
+
+    private Employee addEmployee(EmployeeRegisterDTO employeeRegisterDTO, AppUser appUser){
+        Employee employee = new Employee();
+        employee.setPosition(employeeRegisterDTO.getPosition());
+        employee.setAccountNumber(employeeRegisterDTO.getAccountNumber());
+        employee.setPhone("");
+        employee.setAddress(prepareAddress(employeeRegisterDTO, new Address()));
+        employee.setAppUser(appUser);
+        employeeDAO.addEmployee(employee);
+        return employee;
+    }
+
+    private Address prepareAddress(EmployeeRegisterDTO employeeRegisterDTO, Address address){
+        address.setStreet(employeeRegisterDTO.getStreet());
+        address.setHomeNumber(employeeRegisterDTO.getHomeNumber());
+        address.setLocalNumber(employeeRegisterDTO.getLocalNumber());
+        address.setCity(employeeRegisterDTO.getCity());
+        address.setPostcode(employeeRegisterDTO.getPostcode());
+        //addressDAO.addAddress(address);
+        return address;
     }
 }

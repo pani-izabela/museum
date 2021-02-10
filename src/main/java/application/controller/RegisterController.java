@@ -1,8 +1,10 @@
 package application.controller;
 
-import application.dto.AppUserRegisterDTO;
+import application.dto.ClientRegisterDTO;
+import application.dto.EmployeeRegisterDTO;
 import application.model.AppUser;
 import application.service.AppUserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,14 +18,14 @@ public class RegisterController {
         this.appUserService = appUserService;
     }
 
-    /*@PostMapping(value = "/client/addAppUser")
-    public AppUser clientRegister(@RequestBody AppUser appUser){
-        return appUserService.registerClient(appUser);
-    }*/
-
     @PostMapping(value = "/client/addAppUser")
-    public AppUser clientRegister(@RequestBody AppUserRegisterDTO appUserRegisterDTO){
-        return appUserService.registerClient(appUserRegisterDTO);
+    public ResponseEntity<Object> clientRegister(@RequestBody ClientRegisterDTO clientRegisterDTO){
+        return appUserService.registerClient(clientRegisterDTO);
+    }
+
+    @PostMapping(value = "/employee/addAppUser")
+    public ResponseEntity<Object> employeeRegister(@RequestBody EmployeeRegisterDTO employeeRegisterDTO){
+        return appUserService.registerEmployee(employeeRegisterDTO);
     }
 
     @GetMapping(value = "/getAppUsers")
