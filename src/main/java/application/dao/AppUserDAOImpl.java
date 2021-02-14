@@ -50,6 +50,18 @@ public class AppUserDAOImpl implements AppUserDAO{
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public AppUser findByEmail(String email) {
+        try {
+            return em.createNamedQuery(AppUser.GET_APPUSER_BY_EMAIL, AppUser.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
     @Transactional
     public void deleteById(int id) {
         AppUser appUser = em.find(AppUser.class, id);

@@ -15,8 +15,9 @@ function prepareRegisterClientData() {
             email: emailField,
             password: passField
         }
+        register(registerData);
     };
-    register(registerData);
+
 }
 
 function prepareRegisterEmployeeData() {
@@ -49,22 +50,24 @@ function prepareRegisterEmployeeData() {
             city: cityField,
             postcode: postcodeField
         }
+        registerEmployee(registerData);
     };
-    registerEmployee(registerData);
+
 }
 
 function register(data) {
     $.ajax({
         url: "http://localhost:8080/client/addAppUser",
         method: "POST",
+        scriptCharset: "utf-8",
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function () {
             alert('Rejestracja się powiodła');
             window.location.href = "http://localhost:8080/login";
         },
-        error: function () {
-            alert('Nie udało się zarejestrować');
+        error: function (xhr) {
+            alert(xhr.responseText);
         }
     })
 }
@@ -79,8 +82,8 @@ function registerEmployee(data) {
             alert('Rejestracja się powiodła');
             window.location.href = "http://localhost:8080/login";
         },
-        error: function () {
-            alert('Nie udało się zarejestrować');
+        error: function (xhr) {
+            alert(xhr.responseText);
         }
     })
 }

@@ -13,7 +13,8 @@ import java.util.List;
 
 @NamedQueries({
         @NamedQuery(name = AppUser.GET_APPUSERS, query = AppUser.QUERY_GET_APPUSERS),
-        @NamedQuery(name = AppUser.GET_APPUSER_BY_ID, query = AppUser.QUERY_GET_APPUSER_BY_ID)
+        @NamedQuery(name = AppUser.GET_APPUSER_BY_ID, query = AppUser.QUERY_GET_APPUSER_BY_ID),
+        @NamedQuery(name = AppUser.GET_APPUSER_BY_EMAIL, query = AppUser.QUERY_GET_APPUSER_BY_EMAIL)
 })
 
 @Entity
@@ -28,6 +29,9 @@ public class AppUser implements Serializable {
 
     public static final String GET_APPUSER_BY_ID = "AppUser.get_appuser_by_id";
     public static final String QUERY_GET_APPUSER_BY_ID = "select au from AppUser au where au.id = :id";
+
+    public static final String GET_APPUSER_BY_EMAIL = "AppUser.get_appuser_by_email";
+    public static final String QUERY_GET_APPUSER_BY_EMAIL = "select au from AppUser au where au.email = :email";
 
     @Id
     @NotNull

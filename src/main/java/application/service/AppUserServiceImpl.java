@@ -7,6 +7,7 @@ import application.dao.EmployeeDAO;
 import application.dto.ClientRegisterDTO;
 import application.dto.EmployeeRegisterDTO;
 import application.model.*;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,17 +21,18 @@ public class AppUserServiceImpl implements AppUserService{
     private AppUserDAO appUserDAO;
     private ClientDAO clientDAO;
     private EmployeeDAO employeeDAO;
-    private AddressDAO addressDAO;
 
-    public AppUserServiceImpl(AppUserDAO appUserDAO, ClientDAO clientDAO, EmployeeDAO employeeDAO, AddressDAO addressDAO) {
+    public AppUserServiceImpl(AppUserDAO appUserDAO, ClientDAO clientDAO, EmployeeDAO employeeDAO) {
         this.appUserDAO = appUserDAO;
         this.clientDAO = clientDAO;
         this.employeeDAO = employeeDAO;
-        this.addressDAO = addressDAO;
     }
 
     @Override
     public ResponseEntity<Object> registerClient(ClientRegisterDTO clientRegisterDTO) {
+        if(appUserDAO.findByEmail(clientRegisterDTO.getEmail())!=null){
+            return new ResponseEntity<>("Użytkownik o tym adresie email istnieje już w systemie",HttpStatus.BAD_REQUEST);
+        }
         AppUser appUser = prepareAppUserDataClient(clientRegisterDTO, new AppUser());
         appUser.setRoles(addClientRole());
         addClient(appUser);
@@ -39,6 +41,9 @@ public class AppUserServiceImpl implements AppUserService{
 
     @Override
     public ResponseEntity<Object> registerEmployee(EmployeeRegisterDTO employeeRegisterDTO) {
+        if(appUserDAO.findByEmail(employeeRegisterDTO.getEmail())!=null){
+            return new ResponseEntity<>("Użytkownik o tym adresie email istnieje już w systemie",HttpStatus.BAD_REQUEST);
+        }
         AppUser appUser = prepareAppUserDataEmployee(employeeRegisterDTO, new AppUser());
         appUser.setRoles(addEmployeeRole());
         addEmployee(employeeRegisterDTO, appUser);
@@ -118,7 +123,6 @@ public class AppUserServiceImpl implements AppUserService{
         address.setLocalNumber(employeeRegisterDTO.getLocalNumber());
         address.setCity(employeeRegisterDTO.getCity());
         address.setPostcode(employeeRegisterDTO.getPostcode());
-        //addressDAO.addAddress(address);
         return address;
     }
 }

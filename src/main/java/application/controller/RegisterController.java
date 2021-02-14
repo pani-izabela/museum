@@ -18,12 +18,12 @@ public class RegisterController {
         this.appUserService = appUserService;
     }
 
-    @PostMapping(value = "/client/addAppUser")
+    @PostMapping(value = "/client/addAppUser", produces = "text/plain;charset=UTF-8")
     public ResponseEntity<Object> clientRegister(@RequestBody ClientRegisterDTO clientRegisterDTO){
         return appUserService.registerClient(clientRegisterDTO);
     }
 
-    @PostMapping(value = "/employee/addAppUser")
+    @PostMapping(value = "/employee/addAppUser", produces = "text/plain;charset=UTF-8")
     public ResponseEntity<Object> employeeRegister(@RequestBody EmployeeRegisterDTO employeeRegisterDTO){
         return appUserService.registerEmployee(employeeRegisterDTO);
     }

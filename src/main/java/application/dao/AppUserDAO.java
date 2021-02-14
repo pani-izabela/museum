@@ -8,5 +8,6 @@ public interface AppUserDAO {
     AppUser addAppUser(AppUser appUser);
     List<AppUser> getAppUsers();
     AppUser findById(int id);
+    AppUser findByEmail(String email);
     void deleteById(int id);
 }
