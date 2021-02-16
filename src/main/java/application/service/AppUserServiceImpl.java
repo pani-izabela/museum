@@ -1,5 +1,6 @@
 package application.service;
 
+import application.components.Enum;
 import application.dao.AddressDAO;
 import application.dao.AppUserDAO;
 import application.dao.ClientDAO;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service("appUserService")
 public class AppUserServiceImpl implements AppUserService{
@@ -31,23 +34,29 @@ public class AppUserServiceImpl implements AppUserService{
     @Override
     public ResponseEntity<Object> registerClient(ClientRegisterDTO clientRegisterDTO) {
         if(appUserDAO.findByEmail(clientRegisterDTO.getEmail())!=null){
-            return new ResponseEntity<>("Użytkownik o tym adresie email istnieje już w systemie",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Enum.NOT_UNIQUE_MAIL,HttpStatus.BAD_REQUEST);
+        }
+        if(passwordValid(clientRegisterDTO.getPassword(), clientRegisterDTO.getLastName())==false){
+            return new ResponseEntity<>(Enum.WRONG_PASS,HttpStatus.BAD_REQUEST);
         }
         AppUser appUser = prepareAppUserDataClient(clientRegisterDTO, new AppUser());
         appUser.setRoles(addClientRole());
         addClient(appUser);
-        return new ResponseEntity<>(appUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(appUser.toString(), HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<Object> registerEmployee(EmployeeRegisterDTO employeeRegisterDTO) {
         if(appUserDAO.findByEmail(employeeRegisterDTO.getEmail())!=null){
-            return new ResponseEntity<>("Użytkownik o tym adresie email istnieje już w systemie",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Enum.NOT_UNIQUE_MAIL,HttpStatus.BAD_REQUEST);
+        }
+        if(passwordValid(employeeRegisterDTO.getPassword(), employeeRegisterDTO.getLastName())==false){
+            return new ResponseEntity<>(Enum.WRONG_PASS,HttpStatus.BAD_REQUEST);
         }
         AppUser appUser = prepareAppUserDataEmployee(employeeRegisterDTO, new AppUser());
         appUser.setRoles(addEmployeeRole());
         addEmployee(employeeRegisterDTO, appUser);
-        return new ResponseEntity<>(appUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(appUser.toString(), HttpStatus.CREATED);
     }
 
     @Override
@@ -124,5 +133,15 @@ public class AppUserServiceImpl implements AppUserService{
         address.setCity(employeeRegisterDTO.getCity());
         address.setPostcode(employeeRegisterDTO.getPostcode());
         return address;
+    }
+
+    private boolean passwordValid(String pass, String lastName){
+        String regex = "^((.*?[A-Z]){2})(.*?[a-z])(.*?[#?!@$%^&*-])((?i)(?!" + lastName + ").)*$";
+        Pattern p = Pattern.compile(regex);
+        if (pass == null) {
+            return false;
+        }
+        Matcher m = p.matcher(pass);
+        return m.matches();
     }
 }

@@ -15,7 +15,7 @@ function prepareRegisterClientData() {
             email: emailField,
             password: passField
         }
-        register(registerData);
+        registerClient(registerData);
     };
 
 }
@@ -55,7 +55,7 @@ function prepareRegisterEmployeeData() {
 
 }
 
-function register(data) {
+function registerClient(data) {
     $.ajax({
         url: "http://localhost:8080/client/addAppUser",
         method: "POST",

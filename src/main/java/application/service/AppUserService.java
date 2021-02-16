@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface AppUserService {
-//    AppUser registerClient(AppUserRegisterDTO appUserDTO);
+//    AppUser register(AppUserRegisterDTO appUserDTO);
     ResponseEntity<Object> registerClient(ClientRegisterDTO clientRegisterDTO);
     ResponseEntity<Object> registerEmployee(EmployeeRegisterDTO employeeRegisterDTO);
     List<AppUser> getAppUsers();
