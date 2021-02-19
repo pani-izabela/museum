@@ -3,6 +3,7 @@ package application.controller;
 import application.dto.ClientRegisterDTO;
 import application.dto.EmployeeRegisterDTO;
 import application.model.AppUser;
+import application.model.Role;
 import application.service.AppUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class RegisterController {
+public class AppUserController {
 
     private AppUserService appUserService;
 
-    public RegisterController(AppUserService appUserService) {
+    public AppUserController(AppUserService appUserService) {
         this.appUserService = appUserService;
     }
 
@@ -26,6 +27,16 @@ public class RegisterController {
     @PostMapping(value = "/employee/addAppUser", produces = "text/plain;charset=UTF-8")
     public ResponseEntity<Object> employeeRegister(@RequestBody EmployeeRegisterDTO employeeRegisterDTO){
         return appUserService.registerEmployee(employeeRegisterDTO);
+    }
+
+    @PostMapping(value = "/changePassword", produces = "text/plain;charset=UTF-8")
+    public ResponseEntity<Object> changePass(String email, String newPass){
+        return appUserService.changePass(email, newPass);
+    }
+
+    @GetMapping(value = "/getRoles")
+    public List<Role> getRoles(@RequestBody @RequestParam String email){
+        return appUserService.getAppUserByEmail(email).getRoles();
     }
 
     @GetMapping(value = "/getAppUsers")

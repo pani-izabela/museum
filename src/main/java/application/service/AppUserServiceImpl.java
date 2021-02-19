@@ -60,6 +60,21 @@ public class AppUserServiceImpl implements AppUserService{
     }
 
     @Override
+    public ResponseEntity<Object> changePass(String emailField, String newPassField) {
+        AppUser appUserFromDb = findAppUserByEmail(emailField, newPassField);
+        if(appUserFromDb==null){
+            return new ResponseEntity<>(Enum.ERROR_CHANGE_PASS, HttpStatus.BAD_REQUEST);
+        }
+        else{
+            if(passwordValid(newPassField, appUserFromDb.getSurname())==false){
+                return new ResponseEntity<>(Enum.WRONG_PASS,HttpStatus.BAD_REQUEST);
+            }
+            appUserDAO.updatePass(appUserFromDb, newPassField);
+            return new ResponseEntity<>(Enum.CHANGE_PASS, HttpStatus.OK);
+        }
+    }
+
+    @Override
     public List<AppUser> getAppUsers() {
         return appUserDAO.getAppUsers();
     }
@@ -67,6 +82,11 @@ public class AppUserServiceImpl implements AppUserService{
     @Override
     public AppUser getAppUser(int id) {
         return appUserDAO.findById(id);
+    }
+
+    @Override
+    public AppUser getAppUserByEmail(String email) {
+        return appUserDAO.findByEmail(email);
     }
 
     @Override
@@ -143,5 +163,15 @@ public class AppUserServiceImpl implements AppUserService{
         }
         Matcher m = p.matcher(pass);
         return m.matches();
+    }
+
+    private AppUser findAppUserByEmail(String email, String newPass) {
+        AppUser appUserFromDB = appUserDAO.findByEmail(email);
+        if (appUserFromDB.getEmail().contains(email) && (!newPass.equals(appUserFromDB.getPassword())) && (!newPass.isEmpty())){
+            return appUserFromDB;
+        }
+        else {
+            return null;
+        }
     }
 }

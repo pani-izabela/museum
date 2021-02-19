@@ -11,7 +11,9 @@ public interface AppUserService {
 //    AppUser register(AppUserRegisterDTO appUserDTO);
     ResponseEntity<Object> registerClient(ClientRegisterDTO clientRegisterDTO);
     ResponseEntity<Object> registerEmployee(EmployeeRegisterDTO employeeRegisterDTO);
+    ResponseEntity<Object> changePass(String emailField, String newPassField);
     List<AppUser> getAppUsers();
     AppUser getAppUser(int id);
+    AppUser getAppUserByEmail(String email);
     void deleteAppUser(int id);
 }
