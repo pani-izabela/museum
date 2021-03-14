@@ -21,16 +21,22 @@
         <intercept-url pattern="/register" access="permitAll()"/>
         <intercept-url pattern="/client/register" access="permitAll()"/>
         <intercept-url pattern="/employee/register" access="permitAll()"/>
+        <intercept-url pattern="/postLoginUser" access="hasAnyAuthority('client', 'admin')"/>
+        <intercept-url pattern="/admin/onlyForAdmin" access="hasAnyAuthority('admin')"/>
 
 
         <!--poniżej podajemy na której z podstron znajduje się nasz formularz logowania-->
         <form-login login-page="/login"
+                    authentication-success-handler-ref="customAuthenticationSuccessHandler"
+                    authentication-failure-handler-ref="customAuthenticationFailureHandler"
                     login-processing-url="/performLogin"
                     default-target-url="/index"
                     username-parameter="email"
                     password-parameter="pass"
                     authentication-failure-url="/login/error"
         />
+
+        <access-denied-handler error-page="/accessDenied" />
 
         <!--<logout logout-success-url="/index"
                 logout-url="/performLogout"
@@ -40,6 +46,9 @@
 
         <csrf disabled="true"/>
     </http>
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="appUserService"/>
+    </authentication-manager>
 
     <authentication-manager>
         <authentication-provider>

@@ -79,4 +79,27 @@ public class AppUserDAOImpl implements AppUserDAO{
         if (appUser != null)
             em.remove(appUser);
     }
+
+    @Override
+    @Transactional
+    public AppUser updateFailedAttempts(AppUser appUser, int failedAttempt) {
+        try {
+            appUser.setFailedAttempt(failedAttempt);
+            return em.merge(appUser);
+
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public AppUser updateAppUser(AppUser appUser) {
+        try {
+            return em.merge(appUser);
+
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

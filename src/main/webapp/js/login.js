@@ -3,7 +3,7 @@ let userRole;
 function prepareLoginData() {
     let emailField = $('#email').val();
     let passField = $('#pass').val();
-    getListUserRoles(emailField);
+    // getListUserRoles(emailField);
     let loginData;
     if (emailField.trim().length === 0 || passField.trim().length === 0){
         alert("Uzupełnij brakujące dane.");
@@ -38,26 +38,32 @@ function login(data) {
         contentType: "application/x-www-form-urlencoded",
         data: data,
         success: function () {
-            if(userRole===1){
-                //pokaż widok dla admina, chwilowo co innego
-                alert('Logowanie admina zakończone sukcesem')
-                window.location.href = "http://localhost:8080/client/register";
-            }
-            else if(userRole===2){
-                alert('Logowanie kierownika zakończone sukcesem')
-                window.location.href = "http://localhost:8080/client/register";
-            }
-            else if(userRole===3){
-                alert('Logowanie pracownika zakończone sukcesem')
-                window.location.href = "http://localhost:8080/client/register";
-            }
-            else if(userRole===4){
-                alert('Logowanie klienta zakończone sukcesem')
-                window.location.href = "http://localhost:8080/client/register";
-            }
+            window.location.href = "http://localhost:8080/postLoginUser";
+            // if(userRole===1){
+            //     //pokaż widok dla admina, chwilowo co innego
+            //     alert('Logowanie admina zakończone sukcesem')
+            //     window.location.href = "http://localhost:8080/client/register";
+            // }
+            // else if(userRole===2){
+            //     alert('Logowanie kierownika zakończone sukcesem')
+            //     window.location.href = "http://localhost:8080/client/register";
+            // }
+            // else if(userRole===3){
+            //     alert('Logowanie pracownika zakończone sukcesem')
+            //     window.location.href = "http://localhost:8080/client/register";
+            // }
+            // else if(userRole===4){
+            //     alert('Logowanie klienta zakończone sukcesem')
+            //     window.location.href = "http://localhost:8080/client/register";
+            // }
+            // else {
+            //     alert('Logowanie ... zakończone sukcesem')
+            //     window.location.href = "http://localhost:8080/client/register";
+            // }
         },
         error: function () {
-            alert("Błąd logowania - zweryfikuj login i hasło")
+            //alert("Błąd logowania - zweryfikuj login i hasło")
+            window.location.href = "http://localhost:8080/login?error";
         }
     });
 }

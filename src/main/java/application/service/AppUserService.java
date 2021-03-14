@@ -16,4 +16,6 @@ public interface AppUserService {
     AppUser getAppUser(int id);
     AppUser getAppUserByEmail(String email);
     void deleteAppUser(int id);
+    void increaseFailedAttempts(AppUser appUser);
+    AppUser updateAppUser(AppUser appUser);
 }

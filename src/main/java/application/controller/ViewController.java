@@ -43,4 +43,14 @@ public class ViewController {
     public String passChange() {
         return "passChange";
     }
+
+    @GetMapping(value = "/admin/onlyForAdmin")
+    public String onlyAdmin() {
+        return "admin/onlyForAdmin";
+    }
+
+    @GetMapping(value = "/postLoginUser")
+    public String loggedUser() {
+        return "postLoginUser";
+    }
 }

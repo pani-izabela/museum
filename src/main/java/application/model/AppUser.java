@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @NamedQueries({
@@ -47,9 +48,21 @@ public class AppUser implements Serializable {
     @NotNull
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLES",
             joinColumns = @JoinColumn(name="id_appUser"),
             inverseJoinColumns = @JoinColumn(name="id_role"))
     private List<Role> roles = new ArrayList<>();
+
+    @Column(name="enabled")
+    private Boolean enabled;
+
+    @Column(name = "account_non_locked")
+    private Boolean accountNonLocked;
+
+    @Column(name = "failed_attempt")
+    private int failedAttempt;
+
+    @Column(name = "lock_time")
+    private Date lockTime;
 }

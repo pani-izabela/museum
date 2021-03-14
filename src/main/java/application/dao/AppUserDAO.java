@@ -11,4 +11,6 @@ public interface AppUserDAO {
     AppUser findById(int id);
     AppUser findByEmail(String email);
     void deleteById(int id);
+    AppUser updateFailedAttempts(AppUser appUser, int failedAttempt);
+    AppUser updateAppUser(AppUser appUser);
 }

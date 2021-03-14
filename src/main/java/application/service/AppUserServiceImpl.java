@@ -1,6 +1,7 @@
 package application.service;
 
 import application.components.Enum;
+import application.components.springSecurity.MyAppUserDetails;
 import application.dao.AddressDAO;
 import application.dao.AppUserDAO;
 import application.dao.ClientDAO;
@@ -11,15 +12,21 @@ import application.model.*;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service("appUserService")
-public class AppUserServiceImpl implements AppUserService{
+public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     private AppUserDAO appUserDAO;
     private ClientDAO clientDAO;
@@ -94,12 +101,19 @@ public class AppUserServiceImpl implements AppUserService{
         appUserDAO.deleteById(id);
     }
 
+    @Override
+    public void increaseFailedAttempts(AppUser appUser) {
+        int newFailAttempts = appUser.getFailedAttempt() + 1;
+        appUserDAO.updateFailedAttempts(appUser, newFailAttempts);
+    }
+
     //--------- metody prywatne ----------
     private AppUser prepareAppUserDataClient(ClientRegisterDTO clientRegisterDTO, AppUser appUser) {
         appUser.setEmail(clientRegisterDTO.getEmail());
         appUser.setPassword(clientRegisterDTO.getPassword());
         appUser.setName(clientRegisterDTO.getFirstName());
         appUser.setSurname(clientRegisterDTO.getLastName());
+        appUser.setAccountNonLocked(true);
         return appUser;
     }
     private AppUser prepareAppUserDataEmployee(EmployeeRegisterDTO employeeRegisterDTO, AppUser appUser) {
@@ -107,6 +121,7 @@ public class AppUserServiceImpl implements AppUserService{
         appUser.setPassword(employeeRegisterDTO.getPassword());
         appUser.setName(employeeRegisterDTO.getFirstName());
         appUser.setSurname(employeeRegisterDTO.getLastName());
+        appUser.setAccountNonLocked(true);
         return appUser;
     }
 
@@ -174,4 +189,32 @@ public class AppUserServiceImpl implements AppUserService{
             return null;
         }
     }
+
+    //-------------spring security
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        AppUser appUser = appUserDAO.findByEmail(username);
+        if(appUser == null){
+            throw new UsernameNotFoundException("Nie mogę znaleźć takiego usera");
+        }
+        //return new MyAppUserDetails(appUser);
+        return new org.springframework.security.core.userdetails.User(username, appUser.getPassword(), appUser.getEnabled(),
+                true, true, !appUser.getAccountNonLocked(), getAuthorities(appUser));
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities(AppUser appUser) {
+        List<Role> roles = appUser.getRoles();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for(Role role : roles){
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        return authorities;
+    }
+
+    @Override
+    public AppUser updateAppUser(AppUser appUser) {
+        return appUserDAO.updateAppUser(appUser);
+    }
+
 }
