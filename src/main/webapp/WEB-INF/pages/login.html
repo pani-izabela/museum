@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
@@ -7,7 +7,7 @@
     <script src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/main.js"></script>
-    <script type="text/javascript" src="/js/login.js"></script>
+<!--    <script type="text/javascript" src="/js/login.js"></script>-->
     <title>Logowanie</title>
 </head>
 <body>
@@ -16,14 +16,21 @@
         <h3>Muzeum Historyczne Izy</h3>
     </div>
 
-    <form id="login-form">
+    <form id="login-form" th:action="@{/login}" method="post">
         <div class="row justify-content-center">
             <div id="loginCredential">
+                <div th:if="${param.error}">
+                    <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+                </div>
+                <div th:if="${param.logout}">
+                    <p class="text-warning">You have been logged out.</p>
+                </div>
+
                 <div class="form-group col">
-                    <input type="email" class="form-control" id="email" placeholder="email" style="text-align: center">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="email" style="text-align: center">
                 </div>
                 <div class="form-group col">
-                    <input type="password" class="form-control" id="pass" placeholder="hasło" style="text-align: center">
+                    <input type="password" class="form-control" id="pass" name="pass" placeholder="hasło" style="text-align: center">
                 </div>
             </div>
         </div>
@@ -36,7 +43,7 @@
         </div>
 
         <div class="row justify-content-center p-3">
-            <button type="button" class="btn-dark" onclick="prepareLoginData()">Zaloguj</button>
+            <button type="submit" class="btn-dark">Zaloguj</button>
         </div>
     </form>
 </div>
