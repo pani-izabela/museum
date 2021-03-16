@@ -18,6 +18,7 @@
         <intercept-url pattern="/index" access="permitAll()"/>
         <intercept-url pattern="/hello" access="permitAll()"/>
         <intercept-url pattern="/login" access="permitAll()"/>
+        <intercept-url pattern="/logout" access="permitAll()"/>
         <intercept-url pattern="/register" access="permitAll()"/>
         <intercept-url pattern="/client/register" access="permitAll()"/>
         <intercept-url pattern="/employee/register" access="permitAll()"/>
@@ -37,11 +38,10 @@
 
         <access-denied-handler error-page="/accessDenied" />
 
-        <!--<logout logout-success-url="/index"
-                logout-url="/performLogout"
+        <logout logout-success-url="/login"
                 invalidate-session="true"
                 delete-cookies="JSESSIONID"
-        />-->
+        />
 
         <csrf disabled="true"/>
     </http>

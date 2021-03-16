@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>For logged users</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div>
 <h3>Strona widoczna po zalogowaniu</h3>
-<a href="admin/onlyForAdmin.html" class="btn btn-link float-right text-dark" style="font-size: smaller">ADMIN</a>
+    <a href="admin/onlyForAdmin.html" class="btn btn-link float-right text-dark" style="font-size: smaller">ADMIN</a>
+</div>
+
+<div>
+    <a href="/logout" class="btn btn-dark">Wyloguj się</a>
+</div>
+
+
 </body>
 </html>
