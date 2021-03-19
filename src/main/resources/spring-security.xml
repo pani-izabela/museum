@@ -33,33 +33,35 @@
                     default-target-url="/index"
                     username-parameter="email"
                     password-parameter="pass"
-                    authentication-failure-url="/login/error"
-        />
+                    authentication-failure-url="/login?error"/>
 
-        <access-denied-handler error-page="/accessDenied" />
+        <access-denied-handler error-page="/accessDenied"/>
 
         <logout logout-success-url="/login"
                 invalidate-session="true"
-                delete-cookies="JSESSIONID"
-        />
+                delete-cookies="JSESSIONID"/>
 
         <csrf disabled="true"/>
     </http>
+
     <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="appUserService"/>
-    </authentication-manager>
-
-    <authentication-manager>
-        <authentication-provider>
-            <!--poniżej konfigurujemy dwa zapytania hql do naszej bazy-->
-            <jdbc-user-service data-source-ref="dataSource"
-                               users-by-username-query="select email,password,1 as enabled from appuser where email=?"
-                               authorities-by-username-query="select au.email, r.name from appuser au, role r, user_roles ur where au.id = ur.id_appuser and ur.id_role = r.id and au.email =?"/>
+        <authentication-provider user-service-ref="appUserService">
             <password-encoder ref="passwordEncoder"/>
-
         </authentication-provider>
     </authentication-manager>
-    <!--tutaj ustawiamy kodowanie haseł, w naszym przypadku przetrzymujemy je w bazie w postaci jawnej, odpowiada temu metoda NoOpPasswordEncoder - -->
+    <beans:bean class="application.service.AppUserServiceImpl"/>
+
+    <!--<authentication-manager>
+        <authentication-provider>
+            &lt;!&ndash;poniżej konfigurujemy dwa zapytania hql do naszej bazy&ndash;&gt;
+    <jdbc-user-service data-source-ref="dataSource"
+                       users-by-username-query="select email,password,1 as enabled from appuser where email=?"
+                       authorities-by-username-query="select au.email, r.name from appuser au, role r, user_roles ur where au.id = ur.id_appuser and ur.id_role = r.id and au.email =? and au.account_non_locked=true"/>
+    <password-encoder ref="passwordEncoder"/>
+
+        </authentication-provider>
+    </authentication-manager>-->
+<!--tutaj ustawiamy kodowanie haseł, w naszym przypadku przetrzymujemy je w bazie w postaci jawnej, odpowiada temu metoda NoOpPasswordEncoder - -->
     <!--jest ona oznaczona jako deprecated w kopmilatorze ale żeby nie komplikować z szyfrowaniem haseł w bazie użyłem właśnie jej-->
     <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder" factory-method="getInstance"/>
 

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -199,8 +200,11 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
             throw new UsernameNotFoundException("Nie mogę znaleźć takiego usera");
         }
         //return new MyAppUserDetails(appUser);
-        return new org.springframework.security.core.userdetails.User(username, appUser.getPassword(), appUser.getEnabled(),
-                true, true, !appUser.getAccountNonLocked(), getAuthorities(appUser));
+        User logedUser = new User(username, appUser.getPassword(), appUser.getEnabled(),
+                true, true, appUser.getAccountNonLocked(), getAuthorities(appUser));
+        return logedUser;
+        /*return new org.springframework.security.core.userdetails.User(username, appUser.getPassword(), appUser.getEnabled(),
+                true, true, !appUser.getAccountNonLocked(), getAuthorities(appUser));*/
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities(AppUser appUser) {
