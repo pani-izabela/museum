@@ -108,6 +108,11 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         appUserDAO.updateFailedAttempts(appUser, newFailAttempts);
     }
 
+    @Override
+    public AppUser updateAppUser(AppUser appUser) {
+        return appUserDAO.updateAppUser(appUser);
+    }
+
     //--------- metody prywatne ----------
     private AppUser prepareAppUserDataClient(ClientRegisterDTO clientRegisterDTO, AppUser appUser) {
         appUser.setEmail(clientRegisterDTO.getEmail());
@@ -199,12 +204,9 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         if(appUser == null){
             throw new UsernameNotFoundException("Nie mogę znaleźć takiego usera");
         }
-        //return new MyAppUserDetails(appUser);
         User logedUser = new User(username, appUser.getPassword(), appUser.getEnabled(),
                 true, true, appUser.getAccountNonLocked(), getAuthorities(appUser));
         return logedUser;
-        /*return new org.springframework.security.core.userdetails.User(username, appUser.getPassword(), appUser.getEnabled(),
-                true, true, !appUser.getAccountNonLocked(), getAuthorities(appUser));*/
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities(AppUser appUser) {
@@ -214,11 +216,6 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return authorities;
-    }
-
-    @Override
-    public AppUser updateAppUser(AppUser appUser) {
-        return appUserDAO.updateAppUser(appUser);
     }
 
 }

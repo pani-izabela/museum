@@ -18,4 +18,5 @@ public interface AppUserService {
     void deleteAppUser(int id);
     void increaseFailedAttempts(AppUser appUser);
     AppUser updateAppUser(AppUser appUser);
+
 }
