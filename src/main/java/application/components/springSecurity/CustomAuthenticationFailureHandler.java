@@ -19,7 +19,7 @@ import java.util.Date;
 @Component("customAuthenticationFailureHandler")
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     private String DEFAULT_FAILURE_URL = "/login?error";
-    private static final long LOCK_TIME_DURATION = 5 * 60 * 1000; //5 minut
+    private static final long LOCK_TIME_DURATION = 2 * 60 * 1000; //5 minut
 
     @Autowired
     private AppUserService appUserService;
@@ -28,32 +28,29 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
 
+        if (exception instanceof BadCredentialsException) {
+            exception = lockUser(request.getParameter("email"));
+        } else {
+            exception = unlockWhenTimeExpired(request.getParameter("email"));
+        }
         setDefaultFailureUrl(DEFAULT_FAILURE_URL);
         super.onAuthenticationFailure(request, response, exception);
 
-        if (exception instanceof BadCredentialsException) {
-            lockUser(request.getParameter("email"));
-        }
-        else{
-            unlockWhenTimeExpired(request.getParameter("email"));
-        }
-
     }
 
-    private Exception lockUser(String username) {
+    private AuthenticationException lockUser(String username) {
         AppUser appUser = appUserService.getAppUserByEmail(username);
-        Exception exception = new Exception();
+        AuthenticationException exception = new LockedException("Zła nazwa użytkownika lub hasło");
 
         if (appUser != null) {
-            if(appUser.getAccountNonLocked()){
+            if (appUser.getAccountNonLocked()) {
                 int failedCount = appUser.getFailedAttempt() + 1;
                 appUser.setFailedAttempt(failedCount);
 
                 if (failedCount >= 3) {
                     appUser.setAccountNonLocked(false);
                     appUser.setLockTime(new Date());
-                    exception = new LockedException("Your account has been locked due to 3 failed attempts."
-                            + " It will be unlocked after 24 hours.");
+                    exception = new LockedException("Twoje konto zostało zablokowane z powodu 3 nieudanych prób logowania. \n Zostanie odblokowane po 5 minutach.");
                 }
             }
             appUserService.updateAppUser(appUser);
@@ -61,21 +58,22 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
         return exception;
     }
 
-    private Exception unlockWhenTimeExpired(String email) {
+    private AuthenticationException unlockWhenTimeExpired(String email) {
         AppUser appUser = appUserService.getAppUserByEmail(email);
-        long lockTimeInMillis = appUser.getLockTime().getTime();
-        long currentTimeInMillis = System.currentTimeMillis();
+        if (appUser != null) {
+            long lockTimeInMillis = appUser.getLockTime().getTime();
+            long currentTimeInMillis = System.currentTimeMillis();
 
-        if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
-            appUser.setAccountNonLocked(true);
-            appUser.setLockTime(null);
-            appUser.setFailedAttempt(0);
+            if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
+                appUser.setAccountNonLocked(true);
+                appUser.setLockTime(null);
+                appUser.setFailedAttempt(0);
 
-            appUserService.updateAppUser(appUser);
+                appUserService.updateAppUser(appUser);
 
-            return new Exception(new LockedException("Your account has been unlocked. Please try to login again."));
+                return new LockedException("Twoje konto zostało odblokowane. Spróbuj zalogować się ponownie.");
+            }
         }
-
-        return  new Exception(new LockedException("Your account is still locked. Please try to login again in a few minutes."));
+        return new LockedException("Twoje konto jest nadal zablokowane. Spróbuj zalogować się ponownie za kilka minut.");
     }
 }
