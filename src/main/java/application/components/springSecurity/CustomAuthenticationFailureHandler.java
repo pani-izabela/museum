@@ -19,7 +19,7 @@ import java.util.Date;
 @Component("customAuthenticationFailureHandler")
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     private String DEFAULT_FAILURE_URL = "/login?error";
-    private static final long LOCK_TIME_DURATION = 2 * 60 * 1000; // 24 hours
+    private static final long LOCK_TIME_DURATION = 5 * 60 * 1000; //5 minut
 
     @Autowired
     private AppUserService appUserService;
@@ -56,10 +56,6 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
                             + " It will be unlocked after 24 hours.");
                 }
             }
-            /*else if(!appUser.getAccountNonLocked()){
-                unlockWhenTimeExpired(appUser);
-                exception = new LockedException("Your account has been unlocked. Please try to login again.");
-            }*/
             appUserService.updateAppUser(appUser);
         }
         return exception;

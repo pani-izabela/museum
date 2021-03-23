@@ -13,7 +13,10 @@
 </div>
 
 <div>
-    <a href="/logout" class="btn btn-dark">Wyloguj się</a>
+    <form id="logoutForm" th:action="@{/logout}" method="post">
+        <input type="submit" class="btn btn-dark" value="Wyloguj się">
+    </form>
+<!--    <a href="/logout" class="btn btn-dark">Wyloguj się</a>-->
 </div>
 
 

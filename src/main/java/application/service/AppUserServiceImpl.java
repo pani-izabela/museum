@@ -120,6 +120,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         appUser.setName(clientRegisterDTO.getFirstName());
         appUser.setSurname(clientRegisterDTO.getLastName());
         appUser.setAccountNonLocked(true);
+        appUser.setEnabled(true);
         return appUser;
     }
     private AppUser prepareAppUserDataEmployee(EmployeeRegisterDTO employeeRegisterDTO, AppUser appUser) {
@@ -128,6 +129,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         appUser.setName(employeeRegisterDTO.getFirstName());
         appUser.setSurname(employeeRegisterDTO.getLastName());
         appUser.setAccountNonLocked(true);
+        appUser.setEnabled(true);
         return appUser;
     }
 

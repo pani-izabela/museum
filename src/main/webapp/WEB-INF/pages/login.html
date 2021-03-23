@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
@@ -16,21 +16,19 @@
         <h3>Muzeum Historyczne Izy</h3>
     </div>
 
+    <div id="messages" class="row justify-content-center">
+        <span th:if="${param.error}" class="text-danger">Zła nazwa użytkownika lub hasło</span>
+        <span th:if="${param.logout}" class="text-warning">Zostałeś wylogowany</span>
+        </div>
+
     <form id="login-form" th:action="@{/login}" method="post">
         <div class="row justify-content-center">
             <div id="loginCredential">
-                <div th:if="${param.error}">
-                    <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
-                </div>
-                <div th:if="${param.logout}">
-                    <p class="text-warning">You have been logged out.</p>
-                </div>
-
                 <div class="form-group col">
-                    <input type="email" class="form-control" id="email" name="email" placeholder="email" style="text-align: center">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="email" style="text-align: center" required>
                 </div>
                 <div class="form-group col">
-                    <input type="password" class="form-control" id="pass" name="pass" placeholder="hasło" style="text-align: center">
+                    <input type="password" class="form-control" id="pass" name="pass" placeholder="hasło" style="text-align: center" required>
                 </div>
             </div>
         </div>

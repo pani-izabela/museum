@@ -9,8 +9,7 @@
                 http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
     <!--//poniżej konfigurujemy na jakie podstrony (parametr pattern) będzie miał prawo wejść użytkownik z przypisanymi rolami-->
-    <!--//role dla użytkowników pobierane są z bazy zapytaniem znajdującym się na końcu pliku,-->
-    <!--//w przypadku braku uprawnień do wejścia na stronę zwrócony zostanie error 403.-->
+    <!--//role dla użytkowników pobierane są z bazy poprzez metodę loadUserByUsername() z klasy AppUserServiceImpl, ktora musi implementowac UserDetailsService. Spring Security wie gdzie jej szukać dzięki authentication-provider skonfigurowanemu nizej-->
 
     <http auto-config="true">
         <intercept-url pattern="/admin/*" access="hasAuthority('admin')"/>
@@ -33,11 +32,11 @@
                     default-target-url="/index"
                     username-parameter="email"
                     password-parameter="pass"
-                    authentication-failure-url="/login?error"/>
+                    authentication-failure-url="/login?error.html"/>
 
         <access-denied-handler error-page="/accessDenied"/>
 
-        <logout logout-success-url="/login"
+        <logout logout-success-url="/login?logout"
                 invalidate-session="true"
                 delete-cookies="JSESSIONID"/>
 
@@ -51,16 +50,6 @@
     </authentication-manager>
     <beans:bean class="application.service.AppUserServiceImpl"/>
 
-    <!--<authentication-manager>
-        <authentication-provider>
-            &lt;!&ndash;poniżej konfigurujemy dwa zapytania hql do naszej bazy&ndash;&gt;
-    <jdbc-user-service data-source-ref="dataSource"
-                       users-by-username-query="select email,password,1 as enabled from appuser where email=?"
-                       authorities-by-username-query="select au.email, r.name from appuser au, role r, user_roles ur where au.id = ur.id_appuser and ur.id_role = r.id and au.email =? and au.account_non_locked=true"/>
-    <password-encoder ref="passwordEncoder"/>
-
-        </authentication-provider>
-    </authentication-manager>-->
 <!--tutaj ustawiamy kodowanie haseł, w naszym przypadku przetrzymujemy je w bazie w postaci jawnej, odpowiada temu metoda NoOpPasswordEncoder - -->
     <!--jest ona oznaczona jako deprecated w kopmilatorze ale żeby nie komplikować z szyfrowaniem haseł w bazie użyłem właśnie jej-->
     <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder" factory-method="getInstance"/>

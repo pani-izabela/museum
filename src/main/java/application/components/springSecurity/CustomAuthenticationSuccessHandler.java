@@ -29,8 +29,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         String username = loginUser.getUsername();
         AppUser appUser = appUserService.getAppUserByEmail(username);
         appUser.setFailedAttempt(0);
-        //user.setLastLoginDate(new Date());
-        //userService.saveUser(user);
         appUserService.updateAppUser(appUser);
 
         response.sendRedirect("postLoginUser");
