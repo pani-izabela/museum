@@ -7,7 +7,6 @@
     <script src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/main.js"></script>
-<!--    <script type="text/javascript" src="/js/login.js"></script>-->
     <title>Logowanie</title>
 </head>
 <body>
@@ -17,12 +16,13 @@
     </div>
 
     <div id="messages" class="row justify-content-center">
-<!--        <span th:if="${param.error}" class="text-danger">Zła nazwa użytkownika lub hasło</span>-->
         <div th:if="${param.error}">
             <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
         </div>
-        <span th:if="${param.logout}" class="text-warning">Zostałeś wylogowany</span>
+        <div th:if="${param.logout}">
+            <p class="text-warning">Zostałeś wylogowany</p>
         </div>
+    </div>
 
     <form id="login-form" th:action="@{/login}" method="post">
         <div class="row justify-content-center">

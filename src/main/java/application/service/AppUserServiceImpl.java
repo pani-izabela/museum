@@ -1,15 +1,12 @@
 package application.service;
 
 import application.components.Enum;
-import application.components.springSecurity.MyAppUserDetails;
-import application.dao.AddressDAO;
 import application.dao.AppUserDAO;
 import application.dao.ClientDAO;
 import application.dao.EmployeeDAO;
 import application.dto.ClientRegisterDTO;
 import application.dto.EmployeeRegisterDTO;
 import application.model.*;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -74,7 +71,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
             return new ResponseEntity<>(Enum.ERROR_CHANGE_PASS, HttpStatus.BAD_REQUEST);
         }
         else{
-            if(passwordValid(newPassField, appUserFromDb.getSurname())==false){
+            if(!passwordValid(newPassField, appUserFromDb.getSurname())){
                 return new ResponseEntity<>(Enum.WRONG_PASS,HttpStatus.BAD_REQUEST);
             }
             appUserDAO.updatePass(appUserFromDb, newPassField);
@@ -103,14 +100,21 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     }
 
     @Override
-    public void increaseFailedAttempts(AppUser appUser) {
-        int newFailAttempts = appUser.getFailedAttempt() + 1;
-        appUserDAO.updateFailedAttempts(appUser, newFailAttempts);
-    }
-
-    @Override
     public AppUser updateAppUser(AppUser appUser) {
         return appUserDAO.updateAppUser(appUser);
+    }
+
+    //-------------spring security
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        AppUser appUser = appUserDAO.findByEmail(username);
+        if(appUser == null){
+            throw new UsernameNotFoundException("Nie mogę znaleźć takiego usera");
+        }
+        User logedUser = new User(username, appUser.getPassword(), appUser.getEnabled(),
+                true, true, appUser.getAccountNonLocked(), getAuthorities(appUser));
+        return logedUser;
     }
 
     //--------- metody prywatne ----------
@@ -198,20 +202,8 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         }
     }
 
-    //-------------spring security
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser appUser = appUserDAO.findByEmail(username);
-        if(appUser == null){
-            throw new UsernameNotFoundException("Nie mogę znaleźć takiego usera");
-        }
-        User logedUser = new User(username, appUser.getPassword(), appUser.getEnabled(),
-                true, true, appUser.getAccountNonLocked(), getAuthorities(appUser));
-        return logedUser;
-    }
-
-    public Collection<? extends GrantedAuthority> getAuthorities(AppUser appUser) {
+//    ------Spring security
+    private Collection<? extends GrantedAuthority> getAuthorities(AppUser appUser) {
         List<Role> roles = appUser.getRoles();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for(Role role : roles){

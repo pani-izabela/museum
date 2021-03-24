@@ -21,7 +21,7 @@
         <intercept-url pattern="/register" access="permitAll()"/>
         <intercept-url pattern="/client/register" access="permitAll()"/>
         <intercept-url pattern="/employee/register" access="permitAll()"/>
-        <intercept-url pattern="/postLoginUser" access="hasAnyAuthority('client', 'admin')"/>
+        <intercept-url pattern="/postLoginUser" access="hasAnyAuthority('client', 'employee', 'admin')"/>
         <intercept-url pattern="/admin/onlyForAdmin" access="hasAnyAuthority('admin')"/>
 
 

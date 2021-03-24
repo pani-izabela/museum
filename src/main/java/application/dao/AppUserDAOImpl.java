@@ -17,16 +17,6 @@ public class AppUserDAOImpl implements AppUserDAO{
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager em;
 
-
-    @Override
-    @Transactional
-    public AppUser addAppUser(AppUser appUser) {
-        try {
-            return em.merge(appUser);
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
     @Override
     @Transactional
     public AppUser updatePass(AppUser appUser, String newPass) {
@@ -80,17 +70,6 @@ public class AppUserDAOImpl implements AppUserDAO{
             em.remove(appUser);
     }
 
-    @Override
-    @Transactional
-    public AppUser updateFailedAttempts(AppUser appUser, int failedAttempt) {
-        try {
-            appUser.setFailedAttempt(failedAttempt);
-            return em.merge(appUser);
-
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
 
     @Override
     @Transactional

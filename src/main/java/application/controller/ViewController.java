@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ViewController {
 
     @GetMapping(value="/footer")
-    public String footer(){
-        return "footer";
-    }
+    public String footer(){ return "footer"; }
 
     @GetMapping(value = "/index")
     public String index() {
@@ -40,12 +38,6 @@ public class ViewController {
     public String login() {
         return "login";
     }
-
-    /*@RequestMapping("/login-error")
-    public String loginError(Model model){
-        model.addAttribute("error", true);
-        return "login";
-    }*/
 
     @GetMapping(value = "/passChange")
     public String passChange() {

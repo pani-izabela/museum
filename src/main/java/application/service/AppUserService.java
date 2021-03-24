@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface AppUserService {
-//    AppUser register(AppUserRegisterDTO appUserDTO);
     ResponseEntity<Object> registerClient(ClientRegisterDTO clientRegisterDTO);
     ResponseEntity<Object> registerEmployee(EmployeeRegisterDTO employeeRegisterDTO);
     ResponseEntity<Object> changePass(String emailField, String newPassField);
@@ -16,7 +15,6 @@ public interface AppUserService {
     AppUser getAppUser(int id);
     AppUser getAppUserByEmail(String email);
     void deleteAppUser(int id);
-    void increaseFailedAttempts(AppUser appUser);
     AppUser updateAppUser(AppUser appUser);
 
 }
