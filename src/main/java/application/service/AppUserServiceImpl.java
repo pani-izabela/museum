@@ -36,6 +36,14 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         this.employeeDAO = employeeDAO;
     }
 
+    public AppUserServiceImpl() {
+
+    }
+
+    void setAppUserDAO(AppUserDAO appUserdao){
+        appUserDAO = appUserdao;
+    }
+
     @Override
     public ResponseEntity<Object> registerClient(ClientRegisterDTO clientRegisterDTO) {
         if(appUserDAO.findByEmail(clientRegisterDTO.getEmail())!=null){
