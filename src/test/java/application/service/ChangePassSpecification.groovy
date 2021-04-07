@@ -1,10 +1,14 @@
 package application.service
 
+import application.components.Enum
 import application.dao.AppUserDAO
 import application.dao.ClientDAO
 import application.dao.EmployeeDAO
 import application.dto.ClientRegisterDTO
+import application.model.AppUser
+import application.model.Role
 import org.springframework.http.ResponseEntity
+import org.springframework.test.util.ReflectionTestUtils
 import spock.lang.Specification
 
 class ChangePassSpecification extends Specification{
@@ -19,20 +23,75 @@ class ChangePassSpecification extends Specification{
    def mockedEmployeeDb = Mock(EmployeeDAO)
    def appMock = new AppUserServiceImpl(mockedAppUserDb, mockedClientDb, mockedEmployeeDb)
 
-   /*def "mock test 1"(){
+   def "method changePass return HttpStatus BAD_REQUEST when user is null"(){
       given:
+      //ReflectionTestUtils.invokeMethod(app, "findAppUserByEmail") >> null
+      appDatabase.findByEmail("a.nowak@wp.pl") >> null
 
       when:
-      //mockedAppUserDb.findByEmail("s.nowak@wp.pl")
-      app.changePass("s.nowak@wp.pl", "QQqq!!")
+      def obj = app.changePass("a.nowak@wp.pl", "QQqq!!")
 
       then:
-      1*mockedAppUserDb.findByEmail("s.nowak@wp.pl")
+      obj.toString().contains("400 BAD_REQUEST")
+   }
 
-   }*/
 
+   def "method changePass return HttpStatus OK when user correctly changes the password"(){
+      given:
+      AppUser appUser = new AppUser()
+      appUser.setId(123)
+      appUser.setEmail("a.nowak@wp.pl")
+      appUser.setPassword("QQqq!!")
+      appUser.setName("Anna")
+      appUser.setSurname("Nowak")
+      appUser.setAccountNonLocked(true)
+      appUser.setFailedAttempt(0)
+      appUser.setEnabled(true)
+      List<Role> listRole = new ArrayList<Role>()
+      Role role = new Role();
+      role.setId(4)
+      role.setName("client")
+      listRole.add(role)
+      appUser.setRoles(listRole)
 
-   /*def "method changePass return HttpStatus BAD_REQUEST"(){
+      appDatabase.findByEmail("a.nowak@wp.pl") >> appUser
+
+      when:
+      def obj = app.changePass("a.nowak@wp.pl", "WWww!!")
+
+      then:
+      obj.toString().contains("200 OK")
+   }
+
+   def "method changePass return HttpStatus BAD_REQUEST when user get wrong pass"(){
+      given:
+      AppUser appUser = new AppUser()
+      appUser.setId(123)
+      appUser.setEmail("a.nowak@wp.pl")
+      appUser.setPassword("QQqq!!")
+      appUser.setName("Anna")
+      appUser.setSurname("Nowak")
+      appUser.setAccountNonLocked(true)
+      appUser.setFailedAttempt(0)
+      appUser.setEnabled(true)
+      List<Role> listRole = new ArrayList<Role>()
+      Role role = new Role();
+      role.setId(4)
+      role.setName("client")
+      listRole.add(role)
+      appUser.setRoles(listRole)
+
+      appDatabase.findByEmail("a.nowak@wp.pl") >> appUser
+
+      when:
+      def obj = app.changePass("a.nowak@wp.pl", "ppp")
+
+      then:
+      obj.toString().contains("400 BAD_REQUEST")
+      obj.toString().contains(Enum.WRONG_PASS)
+   }
+
+   def "method changePass return ResponseEntity object"(){
       given:
       appDatabase.findByEmail("a.nowak@wp.pl") >> null
 
@@ -40,23 +99,7 @@ class ChangePassSpecification extends Specification{
       def obj = app.changePass("a.nowak@wp.pl", "QQqq!!")
 
       then:
-      obj.toString().contains("204 BAD_REQUEST")
-   }*/
-
-   /*def "method registerClient return ResponseEntity object"(){
-      given:
-      appDatabase.findByEmail("a.nowak@wp.pl") >> null
-      def clientDTO = new ClientRegisterDTO()
-      clientDTO.setFirstName("Adam")
-      clientDTO.setLastName("Nowak")
-      clientDTO.setEmail("a.nowak@wp.pl")
-      clientDTO.setPassword("WWww!!")
-
-      when:
-      def obj = app.registerClient(clientDTO)
-
-      then:
       obj.class == ResponseEntity
-   }*/
+   }
 
 }

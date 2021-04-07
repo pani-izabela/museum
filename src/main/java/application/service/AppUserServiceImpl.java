@@ -4,6 +4,7 @@ import application.components.Enum;
 import application.dao.AppUserDAO;
 import application.dao.ClientDAO;
 import application.dao.EmployeeDAO;
+import application.dto.AppUserRegisterDTO;
 import application.dto.ClientRegisterDTO;
 import application.dto.EmployeeRegisterDTO;
 import application.model.*;
@@ -26,9 +27,9 @@ import java.util.regex.Pattern;
 @Service("appUserService")
 public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
-    private AppUserDAO appUserDAO;
-    private ClientDAO clientDAO;
-    private EmployeeDAO employeeDAO;
+    private final AppUserDAO appUserDAO;
+    private final ClientDAO clientDAO;
+    private final EmployeeDAO employeeDAO;
 
     public AppUserServiceImpl(AppUserDAO appUserDAO, ClientDAO clientDAO, EmployeeDAO employeeDAO) {
         this.appUserDAO = appUserDAO;
@@ -36,40 +37,30 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         this.employeeDAO = employeeDAO;
     }
 
-    public AppUserServiceImpl() {
-
-    }
-
-    void setAppUserDAO(AppUserDAO appUserdao){
-        appUserDAO = appUserdao;
-    }
-
     @Override
     public ResponseEntity<Object> registerClient(ClientRegisterDTO clientRegisterDTO) {
-        if(appUserDAO.findByEmail(clientRegisterDTO.getEmail())!=null){
-            return new ResponseEntity<>(Enum.NOT_UNIQUE_MAIL,HttpStatus.BAD_REQUEST);
+        if(checkAppUserDuringRegistration(clientRegisterDTO.getEmail(), clientRegisterDTO.getPassword(), clientRegisterDTO.getLastName()) == null){
+            AppUser appUser = prepareAppUserData(clientRegisterDTO, new AppUser());
+            appUser.setRoles(addClientRole());
+            addClient(appUser);
+            return new ResponseEntity<>(appUser.toString(), HttpStatus.CREATED);
         }
-        if(passwordValid(clientRegisterDTO.getPassword(), clientRegisterDTO.getLastName())==false){
-            return new ResponseEntity<>(Enum.WRONG_PASS,HttpStatus.BAD_REQUEST);
+        else{
+            return checkAppUserDuringRegistration(clientRegisterDTO.getEmail(), clientRegisterDTO.getPassword(), clientRegisterDTO.getLastName());
         }
-        AppUser appUser = prepareAppUserDataClient(clientRegisterDTO, new AppUser());
-        appUser.setRoles(addClientRole());
-        addClient(appUser);
-        return new ResponseEntity<>(appUser.toString(), HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<Object> registerEmployee(EmployeeRegisterDTO employeeRegisterDTO) {
-        if(appUserDAO.findByEmail(employeeRegisterDTO.getEmail())!=null){
-            return new ResponseEntity<>(Enum.NOT_UNIQUE_MAIL,HttpStatus.BAD_REQUEST);
+        if(checkAppUserDuringRegistration(employeeRegisterDTO.getEmail(), employeeRegisterDTO.getPassword(), employeeRegisterDTO.getLastName())==null){
+            AppUser appUser = prepareAppUserData(employeeRegisterDTO, new AppUser());
+            appUser.setRoles(addEmployeeRole());
+            addEmployee(employeeRegisterDTO, appUser);
+            return new ResponseEntity<>(appUser.toString(), HttpStatus.CREATED);
         }
-        if(passwordValid(employeeRegisterDTO.getPassword(), employeeRegisterDTO.getLastName())==false){
-            return new ResponseEntity<>(Enum.WRONG_PASS,HttpStatus.BAD_REQUEST);
+        else {
+            return checkAppUserDuringRegistration(employeeRegisterDTO.getEmail(), employeeRegisterDTO.getPassword(), employeeRegisterDTO.getLastName());
         }
-        AppUser appUser = prepareAppUserDataEmployee(employeeRegisterDTO, new AppUser());
-        appUser.setRoles(addEmployeeRole());
-        addEmployee(employeeRegisterDTO, appUser);
-        return new ResponseEntity<>(appUser.toString(), HttpStatus.CREATED);
     }
 
     @Override
@@ -120,26 +111,28 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         if(appUser == null){
             throw new UsernameNotFoundException("Nie mogę znaleźć takiego usera");
         }
-        User logedUser = new User(username, appUser.getPassword(), appUser.getEnabled(),
+        return new User(username, appUser.getPassword(), appUser.getEnabled(),
                 true, true, appUser.getAccountNonLocked(), getAuthorities(appUser));
-        return logedUser;
     }
 
     //--------- metody prywatne ----------
-    private AppUser prepareAppUserDataClient(ClientRegisterDTO clientRegisterDTO, AppUser appUser) {
-        appUser.setEmail(clientRegisterDTO.getEmail());
-        appUser.setPassword(clientRegisterDTO.getPassword());
-        appUser.setName(clientRegisterDTO.getFirstName());
-        appUser.setSurname(clientRegisterDTO.getLastName());
-        appUser.setAccountNonLocked(true);
-        appUser.setEnabled(true);
-        return appUser;
+    private ResponseEntity<Object> checkAppUserDuringRegistration(String email, String pass, String lastName){
+        if(appUserDAO.findByEmail(email)!=null){
+            return new ResponseEntity<>(Enum.NOT_UNIQUE_MAIL,HttpStatus.BAD_REQUEST);
+        }
+        if(!passwordValid(pass, lastName)){
+            return new ResponseEntity<>(Enum.WRONG_PASS,HttpStatus.BAD_REQUEST);
+        }
+        else {
+            return null;
+        }
     }
-    private AppUser prepareAppUserDataEmployee(EmployeeRegisterDTO employeeRegisterDTO, AppUser appUser) {
-        appUser.setEmail(employeeRegisterDTO.getEmail());
-        appUser.setPassword(employeeRegisterDTO.getPassword());
-        appUser.setName(employeeRegisterDTO.getFirstName());
-        appUser.setSurname(employeeRegisterDTO.getLastName());
+
+    private AppUser prepareAppUserData(AppUserRegisterDTO appUserRegisterDTO, AppUser appUser){
+        appUser.setEmail(appUserRegisterDTO.getEmail());
+        appUser.setPassword(appUserRegisterDTO.getPassword());
+        appUser.setName(appUserRegisterDTO.getFirstName());
+        appUser.setSurname(appUserRegisterDTO.getLastName());
         appUser.setAccountNonLocked(true);
         appUser.setEnabled(true);
         return appUser;
@@ -155,7 +148,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     }
 
     private List<Role> addEmployeeRole(){
-        List<Role> list = new ArrayList();
+        List<Role> list = new ArrayList<Role>();
         Role roleEmployee = new Role();
         roleEmployee.setId(3);
         roleEmployee.setName("employee");
@@ -163,14 +156,13 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         return list;
     }
 
-    private Client addClient(AppUser appUser){
+    private void addClient(AppUser appUser){
         Client client = new Client();
         client.setAppUser(appUser);
         clientDAO.addClient(client);
-        return client;
     }
 
-    private Employee addEmployee(EmployeeRegisterDTO employeeRegisterDTO, AppUser appUser){
+    private void addEmployee(EmployeeRegisterDTO employeeRegisterDTO, AppUser appUser){
         Employee employee = new Employee();
         employee.setPosition(employeeRegisterDTO.getPosition());
         employee.setAccountNumber(employeeRegisterDTO.getAccountNumber());
@@ -178,7 +170,6 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         employee.setAddress(prepareAddress(employeeRegisterDTO, new Address()));
         employee.setAppUser(appUser);
         employeeDAO.addEmployee(employee);
-        return employee;
     }
 
     private Address prepareAddress(EmployeeRegisterDTO employeeRegisterDTO, Address address){
@@ -202,7 +193,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     private AppUser findAppUserByEmail(String email, String newPass) {
         AppUser appUserFromDB = appUserDAO.findByEmail(email);
-        if (appUserFromDB.getEmail().contains(email) && (!newPass.equals(appUserFromDB.getPassword())) && (!newPass.isEmpty())){
+        if (appUserFromDB != null && appUserFromDB.getEmail().contains(email) && (!newPass.equals(appUserFromDB.getPassword())) && (!newPass.isEmpty())){
             return appUserFromDB;
         }
         else {

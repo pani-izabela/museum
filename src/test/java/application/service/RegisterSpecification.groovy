@@ -6,7 +6,6 @@ import application.dao.EmployeeDAO
 import application.dto.ClientRegisterDTO
 import org.springframework.http.ResponseEntity
 import spock.lang.Specification
-import spock.lang.Unroll
 
 class RegisterSpecification extends Specification{
 
@@ -22,7 +21,7 @@ class RegisterSpecification extends Specification{
 
 
    def "method registerClient return HttpStatus Created"(){
-      given:
+      given: "prepare clientDTO object and return null from database"
       appDatabase.findByEmail("a.nowak@wp.pl") >> null
       def clientDTO = new ClientRegisterDTO()
       clientDTO.setFirstName("Adam")
@@ -30,17 +29,17 @@ class RegisterSpecification extends Specification{
       clientDTO.setEmail("a.nowak@wp.pl")
       clientDTO.setPassword("WWww!!")
 
-      when:
+      when: "call register method"
       def obj = app.registerClient(clientDTO)
 
-      then:
+      then: "check status code"
       obj.toString().contains("201 CREATED")
-      then:
+      then: "check status code"
       obj.getStatusCode().toString() == "201 CREATED"
    }
 
    def "method registerClient return ResponseEntity object"(){
-      given:
+      given: "prepare clientDTO object and return null from database"
       appDatabase.findByEmail("a.nowak@wp.pl") >> null
       def clientDTO = new ClientRegisterDTO()
       clientDTO.setFirstName("Adam")
@@ -48,25 +47,25 @@ class RegisterSpecification extends Specification{
       clientDTO.setEmail("a.nowak@wp.pl")
       clientDTO.setPassword("WWww!!")
 
-      when:
+      when: "call register method"
       def obj = app.registerClient(clientDTO)
 
-      then:
+      then: "check what object has been returned"
       obj.class == ResponseEntity
    }
 
-   def "mock test"(){
-      given:
+   def "method findByEmail is called within method registerClient"(){
+      given: "prepare clientDTO object"
       def clientDTO = new ClientRegisterDTO()
       clientDTO.setFirstName("Adam")
       clientDTO.setLastName("Nowak")
       clientDTO.setEmail("a.nowak@wp.pl")
       clientDTO.setPassword("WWww!!")
 
-      when:
+      when: "call register method"
       appMock.registerClient(clientDTO)
 
-      then:
+      then: "check if the method findByEmail has been called"
       1*mockedAppUserDb.findByEmail(clientDTO.email)
    }
 

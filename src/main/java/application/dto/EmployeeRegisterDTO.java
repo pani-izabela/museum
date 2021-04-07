@@ -3,11 +3,11 @@ package application.dto;
 import lombok.Data;
 
 @Data
-public class EmployeeRegisterDTO {
-    private String email;
+public class EmployeeRegisterDTO extends  AppUserRegisterDTO{
+    /*private String email;
     private String firstName;
     private String lastName;
-    private String password;
+    private String password;*/
 
     private String position;
     private String accountNumber;

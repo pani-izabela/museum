@@ -1,5 +1,6 @@
 package application.service
 
+import application.components.springSecurity.CustomAuthenticationFailureHandler
 import application.dao.AppUserDAO
 import application.dao.ClientDAO
 import application.dao.EmployeeDAO
