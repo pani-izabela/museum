@@ -4,6 +4,7 @@ import application.dao.AppUserDAO
 import application.dao.ClientDAO
 import application.dao.EmployeeDAO
 import application.dto.ClientRegisterDTO
+import application.dto.EmployeeRegisterDTO
 import org.springframework.http.ResponseEntity
 import spock.lang.Specification
 
@@ -54,19 +55,26 @@ class RegisterSpecification extends Specification{
       obj.class == ResponseEntity
    }
 
-   def "method findByEmail is called within method registerClient"(){
-      given: "prepare clientDTO object"
-      def clientDTO = new ClientRegisterDTO()
-      clientDTO.setFirstName("Adam")
-      clientDTO.setLastName("Nowak")
-      clientDTO.setEmail("a.nowak@wp.pl")
-      clientDTO.setPassword("WWww!!")
+   def "method findByEmail is called within method registerEmployee"(){
+      given: "prepare employeeDTO object"
+      def employeeDTO = new EmployeeRegisterDTO()
+      employeeDTO.setFirstName("Adam")
+      employeeDTO.setLastName("Nowak")
+      employeeDTO.setEmail("a.nowak@wp.pl")
+      employeeDTO.setPassword("WWww!!")
+      employeeDTO.setPosition("Specjalista")
+      employeeDTO.setAccountNumber("999888777666")
+      employeeDTO.setStreet("Wilcza")
+      employeeDTO.setHomeNumber("11")
+      employeeDTO.setLocalNumber("123")
+      employeeDTO.setCity("Warszawa")
+      employeeDTO.setPostcode("00-900")
 
       when: "call register method"
-      appMock.registerClient(clientDTO)
+      appMock.registerEmployee(employeeDTO)
 
       then: "check if the method findByEmail has been called"
-      1*mockedAppUserDb.findByEmail(clientDTO.email)
+      1*mockedAppUserDb.findByEmail(employeeDTO.email)
    }
 
 }
