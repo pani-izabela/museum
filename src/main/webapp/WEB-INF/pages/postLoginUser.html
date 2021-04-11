@@ -12,17 +12,26 @@
 <body>
 <div id="navbarOnPage"></div>
 <br>
-<div id="container" class="container h-100 p-3">
-    <div>
-        <h3>Strona widoczna po zalogowaniu</h3>
-        <a href="admin/onlyForAdmin.html" class="btn btn-link float-right text-dark"
-           style="font-size: smaller">ADMIN</a>
-    </div>
+<div id="container" class="container-fluid">
+    <div class="row no-gutters">
+        <div class="col-md">
+            <div class="menu-image h-100 d-flex align-items-start">
+                <img src="/resources/museum_building.jpg" class="img-fluid" alt="szkic budynku">
+            </div>
+        </div>
 
+        <div class="col-md">
+            <div>
+                <p class="p-3 text-justify">Muzeum Historii Izy powstało ... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet lacus at nulla sodales posuere tempor ac purus. In ultricies sem a orci sollicitudin sollicitudin. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas placerat aliquam nisl ut porta. Etiam fringilla, nunc ut iaculis sagittis, magna metus eleifend lorem, eget interdum lectus libero vel augue. Phasellus facilisis dolor a mi rutrum, a pharetra sem blandit. Integer sagittis nisi a mi tempor pretium. Ut est augue, dignissim ut accumsan id, ultrices pretium erat.
+
+                    Vestibulum in nibh quis ipsum dignissim iaculis vel sit amet ante. Etiam iaculis quam erat, id vehicula massa maximus ac. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec sodales aliquam elit a iaculis. Ut mollis est at sollicitudin vulputate. Aliquam erat volutpat. Quisque rhoncus nulla risus, vel dictum lorem tristique sit amet.</p>
+            </div>
+        </div>
+    </div>
+<br>
     <div>
-        <form id="logoutForm" th:action="@{/logout}" method="post">
-            <input type="submit" class="btn btn-dark" value="Wyloguj się">
-        </form>
+        <a href="admin/onlyForAdmin.html" class="btn btn-link float-right text-dark"
+           style="font-size: smaller">PANEL ADMINA</a>
     </div>
 </div>
 

@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
     <div class="container-fluid">
         <div id="left" class="text-white"></div>
@@ -11,10 +14,17 @@
 </nav>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
     <div class="container">
-        <div><a class="nav-item nav-link text-light" href="#">Features</a></div>
-        <div><a class="nav-item nav-link text-light" href="#">Features</a></div>
-        <div><a class="nav-item nav-link text-light" href="#">Features</a></div>
-        <div><a class="nav-item nav-link text-light" href="#">Features</a></div>
-        <div><a class="nav-item nav-link text-light" href="#">Features</a></div>
+        <div><a class="nav-item nav-link text-light" href="#">Bilety</a></div>
+        <div><a class="nav-item nav-link text-light" href="#">Sklepik</a></div>
+        <div><a class="nav-item nav-link text-light" href="#">Biblioteka</a></div>
+        <div><a class="nav-item nav-link text-light" href="#">Atrakcje</a></div>
+        <div><a class="nav-item nav-link text-light" href="#">Darowizny</a></div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-white p-1 justify-content-end">
+    <div>
+        <form id="logoutForm" th:action="@{/logout}" method="post">
+            <input type="submit" class="btn btn-dark" value="Wyloguj się">
+        </form>
     </div>
 </nav>
