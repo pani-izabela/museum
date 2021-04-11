@@ -16,6 +16,9 @@ public class ViewController {
     @GetMapping(value="/footer")
     public String footer(){ return "footer"; }
 
+    @GetMapping(value="/navbar")
+    public String navbar(){ return "navbar"; }
+
     @GetMapping(value = "/index")
     public String index() {
         return "index";
