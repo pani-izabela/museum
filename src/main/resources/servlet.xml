@@ -23,10 +23,13 @@
         <property name="templateMode" value="HTML" />
     </bean>
 
+    <bean id="springDialect" class="org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect"></bean>
+
     <bean id="templateEngine"
           class="org.thymeleaf.spring5.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver" />
         <property name="enableSpringELCompiler" value="true" />
+        <property name="additionalDialects" ref="springDialect"></property>
     </bean>
 
     <bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver">

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>For logged users</title>
@@ -29,11 +30,16 @@
         </div>
     </div>
 <br>
-    <div>
+    <div sec:authorize="hasAuthority('admin')">
         <a href="admin/onlyForAdmin.html" class="btn btn-link float-right text-dark"
            style="font-size: smaller">PANEL ADMINA</a>
     </div>
-</div>
+    <div>
+        <p sec:authentication='principal.authorities'></p>
+        <p>Poniżej powinno sie wyswietlic imie, powyzej role</p>
+        <p sec:authentication="name"></p>
+    </div>
+
 
 <div id="footerOnPage"></div>
 </body>
