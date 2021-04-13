@@ -34,13 +34,12 @@
         <a href="admin/onlyForAdmin.html" class="btn btn-link float-right text-dark"
            style="font-size: smaller">PANEL ADMINA</a>
     </div>
-    <div>
-        <p sec:authentication='principal.authorities'></p>
-        <p>Poniżej powinno sie wyswietlic imie, powyzej role</p>
-        <p sec:authentication="name"></p>
+    <div sec:authorize="hasAnyAuthority('admin','director')">
+        <a href="admin/onlyForAdmin.html" class="btn btn-link float-right text-dark"
+           style="font-size: smaller">*PRACOWNICY</a>
     </div>
-
-
+    <br>
+    <br>
 <div id="footerOnPage"></div>
 </body>
 </html>

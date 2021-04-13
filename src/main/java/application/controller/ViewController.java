@@ -56,4 +56,29 @@ public class ViewController {
     public String loggedUser() {
         return "postLoginUser";
     }
+
+    @GetMapping(value = "/tickets")
+    public String buyTicket() {
+        return "tickets";
+    }
+
+    @GetMapping(value = "/shop")
+    public String shoping() {
+        return "shop";
+    }
+
+    @GetMapping(value = "/library")
+    public String readingInLibrary() {
+        return "library";
+    }
+
+    @GetMapping(value = "/attractions")
+    public String makeAttractions() {
+        return "attractions";
+    }
+
+    @GetMapping(value = "/donation")
+    public String payDonation() {
+        return "donation";
+    }
 }
