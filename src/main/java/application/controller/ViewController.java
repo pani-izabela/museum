@@ -81,4 +81,9 @@ public class ViewController {
     public String payDonation() {
         return "donation";
     }
+
+    @GetMapping(value = "/employees")
+    public String getEmployees() {
+        return "employees";
+    }
 }

@@ -30,16 +30,12 @@
         </div>
     </div>
 <br>
-    <div sec:authorize="hasAuthority('admin')">
-        <a href="admin/onlyForAdmin.html" class="btn btn-link float-right text-dark"
-           style="font-size: smaller">PANEL ADMINA</a>
-    </div>
-    <div sec:authorize="hasAnyAuthority('admin','director')">
-        <a href="admin/onlyForAdmin.html" class="btn btn-link float-right text-dark"
-           style="font-size: smaller">*PRACOWNICY</a>
+    <div class="btn-group-vertical float-right">
+        <a sec:authorize="hasAuthority('admin')" class="btn btn-outline-dark" href="admin/onlyForAdmin.html" role="button">PANEL ADMINA</a>
+        <a sec:authorize="hasAnyAuthority('admin','director')" class="btn btn-outline-dark" href="employees.html" role="button">* PRACOWNICY</a>
     </div>
     <br>
-    <br>
+</div>
 <div id="footerOnPage"></div>
 </body>
 </html>
