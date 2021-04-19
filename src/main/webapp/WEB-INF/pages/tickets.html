@@ -8,13 +8,49 @@
     <link rel="stylesheet" href="/css/main.css" type="text/css">
     <script src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script src="/js/input-spinner.js"></script>
     <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/ticket.js"></script>
+
+
 </head>
 <body>
 <div id="navbarOnPage"></div>
 <br>
-<div id="container" class="container-fluid">
+<div id="container" class="container-fluid text-center">
     <h3>BILETY</h3>
+    <br>
+    <div class="row justify-content-center">
+        <label for="ticketType" class="col-sm-1 col-form-label">Typ</label>
+        <select class="form-select w-20" aria-label="Default select example" id="ticketType">
+            <option value="1">Normalny</option>
+            <option value="2">Student(25% zniżki)</option>
+            <option value="3">Dziecko(40% zniżki)</option>
+            <option value="4">Emeryt(50% zniżki)</option>
+        </select>
+        <div class="col-2">
+            <input type="number">
+        </div>
+    </div>
+    <br>
+    <div class="col-10">
+        <fieldset disabled>
+            <div class="row justify-content-center">
+                <label for="inputSumPLN" class="col-sm-2 col-form-label">Suma w PLN</label>
+                <input type="text" id="inputSumPLN">
+            </div>
+        </fieldset>
+    </div>
+
+
+    <br>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 text-center">
+            <a href="/register" class="btn w-25 btn-light float-left">Wróć</a>
+            <button type="button" class="btn w-25 btn-dark float-right">Kup</button>
+        </div>
+    </div>
 </div>
 <div id="footerOnPage"></div>
 </body>
