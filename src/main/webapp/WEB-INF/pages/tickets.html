@@ -48,8 +48,41 @@
     <div class="row justify-content-center">
         <div class="col-md-4 text-center">
             <a href="/register" class="btn w-25 btn-light float-left">Wróć</a>
-            <button type="button" class="btn w-25 btn-dark float-right">Kup</button>
+            <button sec:authorize="hasAuthority('client')" type="button" class="btn w-25 btn-dark float-right">Kup</button>
         </div>
+    </div>
+
+    <br>
+    <div sec:authorize="hasAnyAuthority('admin','director', 'employee')", id="tableEmployee">
+        <div class="border-bottom float-left w-100">
+            <h3 class="float-left">Lista sprzedanych biletów</h3>
+        </div>
+        <table class="table table-borderless border-right">
+            <thead>
+            <tr>
+                <th scope="col">Typ</th>
+                <th scope="col">Ilość</th>
+                <th scope="col">Kwota</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Typ 1</td>
+                <td>Ilosc 1</td>
+                <td>kwota 1</td>
+            </tr>
+            <tr>
+                <td>Typ 2</td>
+                <td>Ilosc 2</td>
+                <td>kwota 2</td>
+            </tr>
+            <tr>
+                <td>Typ 3</td>
+                <td>Ilosc 3</td>
+                <td>kwota 3</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <div id="footerOnPage"></div>
