@@ -23,10 +23,10 @@
     <div class="row justify-content-center">
         <label for="ticketType" class="col-sm-1 col-form-label">Typ</label>
         <select class="form-select w-20" aria-label="Default select example" id="ticketType">
-            <option value="1">Normalny</option>
-            <option value="2">Student(25% zniżki)</option>
-            <option value="3">Dziecko(40% zniżki)</option>
-            <option value="4">Emeryt(50% zniżki)</option>
+            <option value="1" th:text="#{pages.tickets.ticketType1}"></option>
+            <option value="2" th:text="#{pages.tickets.ticketType2}"></option>
+            <option value="3" th:text="#{pages.tickets.ticketType3}"></option>
+            <option value="4" th:text="#{pages.tickets.ticketType4}"></option>
         </select>
         <div class="col-2">
             <input type="number">
@@ -47,7 +47,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-4 text-center">
-            <a href="/register" class="btn w-25 btn-light float-left">Wróć</a>
+            <a class="btn w-25 btn-light float-left" onclick="javascript:history.back(-1)">Wróć</a>
             <button sec:authorize="hasAuthority('client')" type="button" class="btn w-25 btn-dark float-right">Kup</button>
         </div>
     </div>

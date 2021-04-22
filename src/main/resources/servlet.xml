@@ -25,12 +25,19 @@
 
     <bean id="springDialect" class="org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect"></bean>
 
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"></property>
+        <property name="defaultEncoding" value="UTF-8"></property>
+    </bean>
+
     <bean id="templateEngine"
           class="org.thymeleaf.spring5.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver" />
         <property name="enableSpringELCompiler" value="true" />
         <property name="additionalDialects" ref="springDialect"></property>
+        <property name="messageSource" ref="messageSource"></property>
     </bean>
+
 
     <bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine" />
