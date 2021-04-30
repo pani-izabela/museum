@@ -58,4 +58,8 @@
         <property name="password" value="Prze8102!"/>
     </bean>
 
+    <bean id="myProps" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:messages.properties"></property>
+    </bean>
+
 </beans>

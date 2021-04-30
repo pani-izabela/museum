@@ -1,15 +1,15 @@
 package application.service
 
-import application.components.Enum
+
 import application.dao.AppUserDAO
 import application.dao.ClientDAO
 import application.dao.EmployeeDAO
-import application.dto.ClientRegisterDTO
 import application.model.AppUser
 import application.model.Role
 import org.springframework.http.ResponseEntity
-import org.springframework.test.util.ReflectionTestUtils
 import spock.lang.Specification
+
+import javax.annotation.Resource
 
 class ChangePassSpecification extends Specification{
 
@@ -22,6 +22,10 @@ class ChangePassSpecification extends Specification{
    def mockedClientDb = Mock(ClientDAO)
    def mockedEmployeeDb = Mock(EmployeeDAO)
    def appMock = new AppUserServiceImpl(mockedAppUserDb, mockedClientDb, mockedEmployeeDb)
+
+   /*@Resource(name = "myProps")
+   Properties properties = new Properties()*/
+   def prop = Stub(Properties.class)
 
    def "method changePass return HttpStatus BAD_REQUEST when user is null"(){
       given:
@@ -88,7 +92,7 @@ class ChangePassSpecification extends Specification{
 
       then:
       obj.toString().contains("400 BAD_REQUEST")
-      obj.toString().contains(Enum.WRONG_PASS)
+      obj.toString().contains(prop.getProperty("service.appUserServiceImpl.WRONG_PASS"))
    }
 
    def "method changePass return ResponseEntity object"(){

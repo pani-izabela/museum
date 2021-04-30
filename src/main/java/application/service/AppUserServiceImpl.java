@@ -1,6 +1,5 @@
 package application.service;
 
-import application.components.Enum;
 import application.dao.AppUserDAO;
 import application.dao.ClientDAO;
 import application.dao.EmployeeDAO;
@@ -18,9 +17,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,12 +32,18 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     private final AppUserDAO appUserDAO;
     private final ClientDAO clientDAO;
     private final EmployeeDAO employeeDAO;
+    //private Properties properties = PropertiesLoaderUtils.loadProperties(new ClassPathResource("/messages.properties"));
+    @Resource(name = "myProps")
+    private final Properties properties;
 
-    public AppUserServiceImpl(AppUserDAO appUserDAO, ClientDAO clientDAO, EmployeeDAO employeeDAO) {
+
+    public AppUserServiceImpl(AppUserDAO appUserDAO, ClientDAO clientDAO, EmployeeDAO employeeDAO) throws IOException {
         this.appUserDAO = appUserDAO;
         this.clientDAO = clientDAO;
         this.employeeDAO = employeeDAO;
+        properties = new Properties();
     }
+
 
     @Override
     public ResponseEntity<Object> registerClient(ClientRegisterDTO clientRegisterDTO) {
@@ -67,14 +75,14 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     public ResponseEntity<Object> changePass(String emailField, String newPassField) {
         AppUser appUserFromDb = findAppUserByEmail(emailField, newPassField);
         if(appUserFromDb==null){
-            return new ResponseEntity<>(Enum.ERROR_CHANGE_PASS, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(properties.getProperty("service.appUserServiceImpl.ERROR_CHANGE_PASS"), HttpStatus.BAD_REQUEST);
         }
         else{
             if(!passwordValid(newPassField, appUserFromDb.getSurname())){
-                return new ResponseEntity<>(Enum.WRONG_PASS,HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(properties.getProperty("service.appUserServiceImpl.WRONG_PASS"),HttpStatus.BAD_REQUEST);
             }
             appUserDAO.updatePass(appUserFromDb, newPassField);
-            return new ResponseEntity<>(Enum.CHANGE_PASS, HttpStatus.OK);
+            return new ResponseEntity<>(properties.getProperty("service.appUserServiceImpl.CHANGE_PASS"), HttpStatus.OK);
         }
     }
 
@@ -118,10 +126,10 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     //--------- metody prywatne ----------
     private ResponseEntity<Object> checkAppUserDuringRegistration(String email, String pass, String lastName){
         if(appUserDAO.findByEmail(email)!=null){
-            return new ResponseEntity<>(Enum.NOT_UNIQUE_MAIL,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(properties.getProperty("service.appUserServiceImpl.NOT_UNIQUE_MAIL"),HttpStatus.BAD_REQUEST);
         }
         if(!passwordValid(pass, lastName)){
-            return new ResponseEntity<>(Enum.WRONG_PASS,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(properties.getProperty("service.appUserServiceImpl.WRONG_PASS"),HttpStatus.BAD_REQUEST);
         }
         else {
             return null;
