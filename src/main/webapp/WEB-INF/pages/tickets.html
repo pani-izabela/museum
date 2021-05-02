@@ -20,9 +20,9 @@
 <div id="container" class="container-fluid text-center">
     <h3>BILETY</h3>
     <br>
-    <div class="row justify-content-center">
-        <label for="ticketType" class="col-sm-1 col-form-label">Typ</label>
-        <select class="form-select w-20" aria-label="Default select example" id="ticketType">
+    <div id="form1" class="row justify-content-center m-2">
+        <label for="ticketType1" class="col-sm-1 col-form-label">Typ</label>
+        <select class="form-select w-20" aria-label="Default select example" id="ticketType1">
             <option value="1" th:text="#{pages.tickets.ticketType1}"></option>
             <option value="2" th:text="#{pages.tickets.ticketType2}"></option>
             <option value="3" th:text="#{pages.tickets.ticketType3}"></option>
@@ -30,6 +30,57 @@
         </select>
         <div class="col-2">
             <input type="number">
+        </div>
+        <div>
+            <button id="btnSmall1" type="button" class="btn btn-light btn-sm" data-toggle="collapse" data-target="#form2" aria-expanded="false" aria-controls="form2">Dodaj kolejny</button>
+            <button id="btnSmall1del" type="button" class="btn btn-light btn-sm" style="display: none">Usuń</button>
+        </div>
+    </div>
+    <div id="form2" class="row justify-content-center m-2 collapse multi-collapse">
+        <label for="ticketType2" class="col-sm-1 col-form-label">Typ</label>
+        <select class="form-select w-20" aria-label="Default select example" id="ticketType2">
+            <option value="1" th:text="#{pages.tickets.ticketType1}"></option>
+            <option value="2" th:text="#{pages.tickets.ticketType2}"></option>
+            <option value="3" th:text="#{pages.tickets.ticketType3}"></option>
+            <option value="4" th:text="#{pages.tickets.ticketType4}"></option>
+        </select>
+        <div class="col-2">
+            <input id="inpNo2" type="number">
+        </div>
+        <div>
+            <button id="btnSmall2" type="button" class="btn btn-light btn-sm" data-toggle="collapse" data-target="#form3" aria-expanded="false" aria-controls="form3">Dodaj kolejny</button>
+            <button id="btnSmall2del" type="button" class="btn btn-light btn-sm" style="display: none">Usuń</button>
+        </div>
+    </div>
+    <div id="form3" class="row justify-content-center m-2 collapse multi-collapse">
+        <label for="ticketType3" class="col-sm-1 col-form-label">Typ</label>
+        <select class="form-select w-20" aria-label="Default select example" id="ticketType3">
+            <option value="1" th:text="#{pages.tickets.ticketType1}"></option>
+            <option value="2" th:text="#{pages.tickets.ticketType2}"></option>
+            <option value="3" th:text="#{pages.tickets.ticketType3}"></option>
+            <option value="4" th:text="#{pages.tickets.ticketType4}"></option>
+        </select>
+        <div class="col-2">
+            <input id="inpNo3" type="number">
+        </div>
+        <div>
+            <button id="btnSmall3" type="button" class="btn btn-light btn-sm" data-toggle="collapse" data-target="#form4" aria-expanded="false" aria-controls="form4">Dodaj kolejny</button>
+            <button id="btnSmall3del" type="button" class="btn btn-light btn-sm" style="display: none">Usuń</button>
+        </div>
+    </div>
+    <div id="form4" class="row justify-content-center m-2 collapse multi-collapse">
+        <label for="ticketType4" class="col-sm-1 col-form-label">Typ</label>
+        <select class="form-select w-20" aria-label="Default select example" id="ticketType4">
+            <option value="1" th:text="#{pages.tickets.ticketType1}"></option>
+            <option value="2" th:text="#{pages.tickets.ticketType2}"></option>
+            <option value="3" th:text="#{pages.tickets.ticketType3}"></option>
+            <option value="4" th:text="#{pages.tickets.ticketType4}"></option>
+        </select>
+        <div class="col-2">
+            <input id="inpNo4" type="number">
+        </div>
+        <div>
+            <button id="btnSmall4del" type="button" class="btn btn-light btn-sm" style="display: none">Usuń</button>
         </div>
     </div>
     <br>
