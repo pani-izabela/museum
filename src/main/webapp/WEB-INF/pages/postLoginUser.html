@@ -13,7 +13,7 @@
 <body>
 <div id="navbarOnPage"></div>
 <br>
-<div id="container" class="container-fluid">
+<div id="container" class="container-fluid pb-3">
     <div class="row no-gutters">
         <div class="col-md">
             <div class="menu-image h-100 d-flex align-items-start">
@@ -30,11 +30,14 @@
         </div>
     </div>
 <br>
-    <div class="btn-group-vertical float-right p-0">
-        <a sec:authorize="hasAuthority('admin')" class="btn btn-outline-dark" href="admin/onlyForAdmin.html" role="button">PANEL ADMINA</a>
-        <a sec:authorize="hasAnyAuthority('admin','director')" class="btn btn-outline-dark" href="employees.html" role="button">* PRACOWNICY</a>
+    <div class="row no-gutters">
+        <div class="col">
+            <div class="btn-group-vertical float-right">
+                <a sec:authorize="hasAuthority('admin')" class="btn btn-outline-dark" href="admin/onlyForAdmin.html" role="button">PANEL ADMINA</a>
+                <a sec:authorize="hasAnyAuthority('admin','director')" class="btn btn-outline-dark" href="employees.html" role="button">* PRACOWNICY</a>
+            </div>
+        </div>
     </div>
-    <br>
 </div>
 <div id="footerOnPage"></div>
 </body>
