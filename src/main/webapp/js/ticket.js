@@ -1,12 +1,14 @@
 $(document).ready(function () {
     setStyleInputForNumbers();
-    getElement()
+    getElement();
+    getDate();
     hideForms();
     deleteForm();
     setSum();
 })
 
 var inp1, inp2, inp3, inp4, result;
+var normalPrice, studentPrice, childPrice, pensionerPrice;
 
 function getElement() {
     inp1 = document.getElementById('inpNo1');
@@ -14,6 +16,13 @@ function getElement() {
     inp3 = document.getElementById('inpNo3');
     inp4 = document.getElementById('inpNo4');
     result = document.getElementById('inputSumPLN');
+}
+
+function getDate() {
+    normalPrice = document.getElementById('normalTicket1').getAttribute('normalPrice');
+    studentPrice = document.getElementById('studentTicket1').getAttribute('studentPrice');
+    childPrice = document.getElementById('childTicket1').getAttribute('childPrice');
+    pensionerPrice = document.getElementById('pensionerTicket1').getAttribute('pensionerPrice');
 }
 
 function setStyleInputForNumbers() {
@@ -60,10 +69,28 @@ function setSum() {
     inp3.onchange = showText;
     inp4.onchange = showText;
     function showText() {
-        result.value = parseFloat(inp1.value) + parseFloat(inp2.value) + parseFloat(inp3.value) + parseFloat(inp4.value);
+        updateSum()
     }
 }
 
 function updateSum() {
-    result.value = parseFloat(inp1.value) + parseFloat(inp2.value) + parseFloat(inp3.value) + parseFloat(inp4.value);
+    result.value = (parseFloat(inp1.value) * calculatePriceForm('ticketType1'))
+        + (parseFloat(inp2.value) * calculatePriceForm('ticketType2'))
+        + (parseFloat(inp3.value) * calculatePriceForm('ticketType3'))
+        + (parseFloat(inp4.value) * calculatePriceForm('ticketType4'));
+}
+
+function calculatePriceForm(ticketType) {
+    if($('#' + ticketType + ' option:selected').val()==1){
+        return normalPrice;
+    }
+    else if($('#' + ticketType + ' option:selected').val()==2){
+        return (normalPrice - (normalPrice * studentPrice))
+    }
+    else if($('#' + ticketType + ' option:selected').val()==3){
+        return (normalPrice - (normalPrice * childPrice))
+    }
+    else if($('#' + ticketType + ' option:selected').val()==4){
+        return (normalPrice - (normalPrice * pensionerPrice))
+    }
 }

@@ -20,7 +20,7 @@
     <br>
     <div id="form1" class="row justify-content-center m-2">
         <label for="ticketType1" class="col-sm-1 col-form-label">Typ</label>
-        <select class="form-select w-20" aria-label="Default select example" id="ticketType1">
+        <select id="ticketType1" class="form-select w-20" aria-label="Default select example" >
             <option id="normalTicket1" value="1" th:text="#{pages.tickets.ticketType1}" th:attr="normalPrice=#{pages.tickets.ticketPrice1}"></option>
             <option id="studentTicket1" value="2" th:text="#{pages.tickets.ticketType2}" th:attr="studentPrice=#{pages.tickets.ticketPrice2}"></option>
             <option id="childTicket1" value="3" th:text="#{pages.tickets.ticketType3}" th:attr="childPrice=#{pages.tickets.ticketPrice3}"></option>
