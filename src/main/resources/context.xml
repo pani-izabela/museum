@@ -23,6 +23,7 @@
 <!--    umożliwiają konfigurację zachowań transakcyjnych na podstawie adnotacji-->
     <tx:annotation-driven transaction-manager="resourcesTransactionManager"/>
 
+
     <import resource="classpath:spring-security.xml" />
 
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />

@@ -10,7 +10,9 @@
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script src="/js/input-spinner.js"></script>
     <script type="text/javascript" src="/js/main.js"></script>
-    <script type="text/javascript" src="/js/ticket.js"></script>
+    <script type="text/javascript" src="/js/ticket2.js"></script>
+
+
 </head>
 <body>
 <div id="navbarOnPage"></div>
@@ -30,10 +32,12 @@
             <input id="inpNo1" type="number" value="0">
         </div>
         <div>
-            <button id="btnSmall1" type="button" class="btn btn-light btn-sm" onclick="addForm()">Dodaj kolejny</button>
+<!--            <button id="btnSmall1" type="button" class="btn btn-light btn-sm" data-toggle="collapse" data-target="#form2" aria-expanded="false" aria-controls="form2">Dodaj kolejny</button>-->
+            <button id="btnSmall1" type="button" class="btn btn-light btn-sm" onclick="addNextForm()">Dodaj kolejny</button>
+            <button id="btnSmall1del" type="button" class="btn btn-light btn-sm" style="display: none">Usuń</button>
         </div>
     </div>
-    <div id="form2" class="row justify-content-center m-2">
+    <div id="form2" class="row justify-content-center m-2 collapse multi-collapse">
         <label for="ticketType2" class="col-sm-1 col-form-label">Typ</label>
         <select class="form-select w-20" aria-label="Default select example" id="ticketType2">
             <option id="normalTicket2" value="1" th:text="#{pages.tickets.ticketType1}" th:attr="normalPrice=#{pages.tickets.ticketPrice1}"></option>
@@ -45,10 +49,11 @@
             <input id="inpNo2" type="number" value="0">
         </div>
         <div>
-            <button id="btnSmall2del" type="button" class="btn btn-light btn-sm deleteBtn">Usuń</button>
+<!--            <button id="btnSmall2" type="button" class="btn btn-light btn-sm" data-toggle="collapse" data-target="#form3" aria-expanded="false" aria-controls="form3">Dodaj kolejny</button>-->
+            <button id="btnSmall2del" type="button" class="btn btn-light btn-sm" style="display: none">Usuń</button>
         </div>
     </div>
-    <div id="form3" class="row justify-content-center m-2">
+    <div id="form3" class="row justify-content-center m-2 collapse multi-collapse">
         <label for="ticketType3" class="col-sm-1 col-form-label">Typ</label>
         <select class="form-select w-20" aria-label="Default select example" id="ticketType3">
             <option value="1" th:text="#{pages.tickets.ticketType1}"></option>
@@ -60,10 +65,11 @@
             <input id="inpNo3" type="number" value="0">
         </div>
         <div>
-            <button id="btnSmall3del" type="button" class="btn btn-light btn-sm deleteBtn">Usuń</button>
+<!--            <button id="btnSmall3" type="button" class="btn btn-light btn-sm" data-toggle="collapse" data-target="#form4" aria-expanded="false" aria-controls="form4">Dodaj kolejny</button>-->
+            <button id="btnSmall3del" type="button" class="btn btn-light btn-sm" style="display: none">Usuń</button>
         </div>
     </div>
-    <div id="form4" class="row justify-content-center m-2">
+    <div id="form4" class="row justify-content-center m-2 collapse multi-collapse">
         <label for="ticketType4" class="col-sm-1 col-form-label">Typ</label>
         <select class="form-select w-20" aria-label="Default select example" id="ticketType4">
             <option value="1" th:text="#{pages.tickets.ticketType1}"></option>
@@ -75,7 +81,7 @@
             <input id="inpNo4" type="number" value="0">
         </div>
         <div>
-            <button id="btnSmall4del" type="button" class="btn btn-light btn-sm deleteBtn">Usuń</button>
+            <button id="btnSmall4del" type="button" class="btn btn-light btn-sm" style="display: none">Usuń</button>
         </div>
     </div>
     <br>
@@ -87,7 +93,10 @@
             </div>
         </fieldset>
     </div>
+
+
     <br>
+
     <div class="row justify-content-center">
         <div class="col-md-4 text-center">
             <a class="btn w-25 btn-light float-left" onclick="javascript:history.back(-1)">Wróć</a>
