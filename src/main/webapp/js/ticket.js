@@ -7,8 +7,9 @@ $(document).ready(function () {
     setSum();
 })
 
-var inp1, inp2, inp3, inp4, result;
+var inp1, inp2, inp3, inp4, result, sel1, sel2, sel3, sel4;
 var normalPrice, studentPrice, childPrice, pensionerPrice;
+var normalTicket, studentTicket, childTicket, pensionerTicket;
 
 function getElement() {
     inp1 = document.getElementById('inpNo1');
@@ -16,6 +17,10 @@ function getElement() {
     inp3 = document.getElementById('inpNo3');
     inp4 = document.getElementById('inpNo4');
     result = document.getElementById('inputSumPLN');
+    sel1 = document.getElementById('ticketType1')
+    sel2 = document.getElementById('ticketType2')
+    sel3 = document.getElementById('ticketType3')
+    sel4 = document.getElementById('ticketType4')
 }
 
 function getDate() {
@@ -23,6 +28,10 @@ function getDate() {
     studentPrice = document.getElementById('studentTicket1').getAttribute('studentPrice');
     childPrice = document.getElementById('childTicket1').getAttribute('childPrice');
     pensionerPrice = document.getElementById('pensionerTicket1').getAttribute('pensionerPrice');
+    normalTicket = document.getElementById('normalTicket1').text;
+    studentTicket = document.getElementById('studentTicket1').text;
+    childTicket = document.getElementById('childTicket1').text;
+    pensionerTicket = document.getElementById('pensionerTicket1').text;
 }
 
 function setStyleInputForNumbers() {
@@ -37,14 +46,14 @@ function hideForms() {
 
 function addForm() {
     var form2 = document.getElementById('form2');
-    var isVisibleForm2 = form2.style.display.includes('none')
+    var isNotVisibleForm2 = form2.style.display.includes('none')
     var form3 = document.getElementById('form3');
-    var isVisibleForm3 = form3.style.display.includes('none')
-    if(isVisibleForm2){
+    var isNotVisibleForm3 = form3.style.display.includes('none')
+    if(isNotVisibleForm2){
         $('#form2').show();
     }
     else {
-        if(isVisibleForm3){
+        if(isNotVisibleForm3){
             $('#form3').show();
         }
         else {
@@ -68,6 +77,10 @@ function setSum() {
     inp2.onchange = showText;
     inp3.onchange = showText;
     inp4.onchange = showText;
+    sel1.onchange = showText;
+    sel2.onchange = showText;
+    sel3.onchange = showText;
+    sel4.onchange = showText;
     function showText() {
         updateSum()
     }
@@ -81,16 +94,82 @@ function updateSum() {
 }
 
 function calculatePriceForm(ticketType) {
-    if($('#' + ticketType + ' option:selected').val()==1){
+    if(checkTicketType(ticketType).includes(normalTicket)){
         return normalPrice;
     }
+    else if(checkTicketType(ticketType).includes(studentTicket)){
+        return (normalPrice - (normalPrice * studentPrice));
+    }
+    else if(checkTicketType(ticketType).includes(childTicket)){
+        return (normalPrice - (normalPrice * childPrice));
+    }
+    else if(checkTicketType(ticketType).includes(pensionerTicket)){
+        return (normalPrice - (normalPrice * pensionerPrice));
+    }
+}
+
+function checkTicketType(ticketType) {
+    if($('#' + ticketType + ' option:selected').val()==1){
+        return normalTicket;
+    }
     else if($('#' + ticketType + ' option:selected').val()==2){
-        return (normalPrice - (normalPrice * studentPrice))
+        return studentTicket;
     }
     else if($('#' + ticketType + ' option:selected').val()==3){
-        return (normalPrice - (normalPrice * childPrice))
+        return childTicket;
     }
     else if($('#' + ticketType + ' option:selected').val()==4){
-        return (normalPrice - (normalPrice * pensionerPrice))
+        return pensionerTicket;
     }
+}
+
+function prepareTicketData() {
+    let typeFirstTicket = checkTicketType('ticketType1');
+    let priceFirstTicket = calculatePriceForm('ticketType1');
+    for(let i=0; i<inp1.value; i++){
+        buyTicket(typeFirstTicket, priceFirstTicket)
+    }
+    if(inp2.value != 0 ){
+        let typeSecondTicket = checkTicketType('ticketType2');
+        let priceSecondTicket = calculatePriceForm('ticketType2');
+        for(let i=0; i<inp2.value; i++){
+            buyTicket(typeSecondTicket, priceSecondTicket)
+        }
+    }
+    if(inp3.value != 0 ){
+        let typeThirdTicket = checkTicketType('ticketType3');
+        let priceThirdTicket = calculatePriceForm('ticketType3');
+        for(let i=0; i<inp3.value; i++){
+            buyTicket(typeThirdTicket, priceThirdTicket)
+        }
+    }
+    if(inp4.value != 0 ){
+        let typeFourthTicket = checkTicketType('ticketType4');
+        let priceFourthTicket = calculatePriceForm('ticketType4');
+        for(let i=0; i<inp4.value; i++){
+            buyTicket(typeFourthTicket, priceFourthTicket)
+        }
+    }
+}
+
+function buyTicket(type, price) {
+    let ticketData = {
+        type: type,
+        price: price
+    }
+    $.ajax({
+        url: "http://localhost:8080/buyTicket",
+        method: "POST",
+        scriptCharset: "utf-8",
+        contentType: "application/json",
+        data: JSON.stringify(ticketData),
+        success: function () {
+            alert('Kupiłeś bilet/y, teraz możesz korzystać z zakładki atrakcje');
+            window.location.href = "http://localhost:8080/attractions";
+        },
+        error: function (xhr) {
+            alert(xhr.responseText);
+        }
+    })
+    console.log('kupiles ' + z + ' bilet/y typu ' + x + ' w cenie: ' + y)
 }
