@@ -87,10 +87,21 @@ function setSum() {
 }
 
 function updateSum() {
-    result.value = (parseFloat(inp1.value) * calculatePriceForm('ticketType1'))
+    var ticketsNumber = parseFloat(inp1.value) + parseFloat(inp2.value) + parseFloat(inp3.value) + parseFloat(inp4.value);
+    var sum = (parseFloat(inp1.value) * calculatePriceForm('ticketType1'))
         + (parseFloat(inp2.value) * calculatePriceForm('ticketType2'))
         + (parseFloat(inp3.value) * calculatePriceForm('ticketType3'))
         + (parseFloat(inp4.value) * calculatePriceForm('ticketType4'));
+    if(ticketsNumber >= 10 && ticketsNumber <= 50){
+        var discount =  ((Math.floor(ticketsNumber / 10) / 2) / 10) * sum;
+        result.value = sum - discount;
+    }
+    else if(ticketsNumber > 50){
+        result.value = sum - (0.25 * sum);
+    }
+    else {
+        result.value = sum;
+    }
 }
 
 function calculatePriceForm(ticketType) {
