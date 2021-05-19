@@ -6,15 +6,23 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+@NamedQueries({
+        @NamedQuery(name = Client.GET_CLIENT_BY_APPUSER, query = Client.QUERY_GET_CLIENT_BY_APPUSER)
+})
 
 @Entity
 @Table(name="CLIENT")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Client {
+public class Client implements Serializable {
+
+    public static final String GET_CLIENT_BY_APPUSER = "Client.get_client_by_appuser";
+    public static final String QUERY_GET_CLIENT_BY_APPUSER = "select cl from Client cl where cl.appUser = :id_appuser";
 
     @Id
     @NotNull
@@ -26,7 +34,7 @@ public class Client {
 
     @NotNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="id_appUser")
+    @JoinColumn(name="id_appuser")
     private AppUser appUser;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

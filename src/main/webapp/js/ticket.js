@@ -10,6 +10,7 @@ $(document).ready(function () {
 var inp1, inp2, inp3, inp4, result, sel1, sel2, sel3, sel4;
 var normalPrice, studentPrice, childPrice, pensionerPrice;
 var normalTicket, studentTicket, childTicket, pensionerTicket;
+var ticketTab = [];
 
 function getElement() {
     inp1 = document.getElementById('inpNo1');
@@ -17,10 +18,10 @@ function getElement() {
     inp3 = document.getElementById('inpNo3');
     inp4 = document.getElementById('inpNo4');
     result = document.getElementById('inputSumPLN');
-    sel1 = document.getElementById('ticketType1')
-    sel2 = document.getElementById('ticketType2')
-    sel3 = document.getElementById('ticketType3')
-    sel4 = document.getElementById('ticketType4')
+    sel1 = document.getElementById('ticketType1');
+    sel2 = document.getElementById('ticketType2');
+    sel3 = document.getElementById('ticketType3');
+    sel4 = document.getElementById('ticketType4');
 }
 
 function getDate() {
@@ -138,49 +139,70 @@ function prepareTicketData() {
     let typeFirstTicket = checkTicketType('ticketType1');
     let priceFirstTicket = calculatePriceForm('ticketType1');
     for(let i=0; i<inp1.value; i++){
-        buyTicket(typeFirstTicket, priceFirstTicket)
+        prepareTicketToBuy(typeFirstTicket, priceFirstTicket)
     }
     if(inp2.value != 0 ){
         let typeSecondTicket = checkTicketType('ticketType2');
         let priceSecondTicket = calculatePriceForm('ticketType2');
         for(let i=0; i<inp2.value; i++){
-            buyTicket(typeSecondTicket, priceSecondTicket)
+            prepareTicketToBuy(typeSecondTicket, priceSecondTicket)
         }
     }
     if(inp3.value != 0 ){
         let typeThirdTicket = checkTicketType('ticketType3');
         let priceThirdTicket = calculatePriceForm('ticketType3');
         for(let i=0; i<inp3.value; i++){
-            buyTicket(typeThirdTicket, priceThirdTicket)
+            prepareTicketToBuy(typeThirdTicket, priceThirdTicket)
         }
     }
     if(inp4.value != 0 ){
         let typeFourthTicket = checkTicketType('ticketType4');
         let priceFourthTicket = calculatePriceForm('ticketType4');
         for(let i=0; i<inp4.value; i++){
-            buyTicket(typeFourthTicket, priceFourthTicket)
+            prepareTicketToBuy(typeFourthTicket, priceFourthTicket)
         }
     }
+    buyTicket()
 }
 
-function buyTicket(type, price) {
-    let ticketData = {
-        type: type,
-        price: price
-    }
+function prepareTicketToBuy(type, price) {
+    ticketTab.push({type:type, price:price})
+}
+
+function buyTicket() {
     $.ajax({
         url: "http://localhost:8080/buyTicket",
         method: "POST",
-        scriptCharset: "utf-8",
         contentType: "application/json",
-        data: JSON.stringify(ticketData),
+        data: JSON.stringify(ticketTab),
         success: function () {
-            alert('Kupiłeś bilet/y, teraz możesz korzystać z zakładki atrakcje');
-            window.location.href = "http://localhost:8080/attractions";
+            console.log('Kupiłeś bilet/y, teraz możesz korzystać z zakładki atrakcje');
+            //fundAccount()
+            window.location.href = "http://localhost:8080/attractions"
         },
-        error: function (xhr) {
-            alert(xhr.responseText);
-        }
+        error: function () {
+            console.log('Nie udało się kupić biletu')
+        },
     })
-    console.log('kupiles ' + z + ' bilet/y typu ' + x + ' w cenie: ' + y)
 }
+
+function fundAccount() {
+    $.ajax({
+        url: "http://localhost:8080/buyTicket1",
+        method: "POST",
+        data:{
+            "amount": result.value
+        },
+        success: function () {
+            console.log('Konto muzeum zostało zasilone kwotą ' + result.value);
+        },
+        error: function () {
+        },
+    })
+}
+
+/*
+function unlockAttraction(){
+    $('#ticketlessView').hide();
+    $('#viewWithTicket').show();
+}*/

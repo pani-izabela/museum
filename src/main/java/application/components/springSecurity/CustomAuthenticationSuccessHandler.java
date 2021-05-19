@@ -15,6 +15,8 @@ import java.io.IOException;
 
 @Component("customAuthenticationSuccessHandler")
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+    private String username;
+    private AppUser appUser;
 
     @Autowired
     private AppUserService appUserService;
@@ -25,11 +27,19 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         User loginUser = (User) authentication.getPrincipal();
 
-        String username = loginUser.getUsername();
-        AppUser appUser = appUserService.getAppUserByEmail(username);
+        username = loginUser.getUsername();
+        appUser = appUserService.getAppUserByEmail(username);
         appUser.setFailedAttempt(0);
         appUserService.updateAppUser(appUser);
 
         response.sendRedirect("postLoginUser");
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public AppUser getAppUser() {
+        return appUser;
     }
 }
