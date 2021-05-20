@@ -20,4 +20,9 @@ public class TicketController {
     public ResponseEntity<Object> buyTicket(@RequestBody List<Ticket> tickets){
         return ticketService.addTicket(tickets);
     }
+
+    @PostMapping(value = "/fundAccount")
+    public ResponseEntity<Object> fundAccount(String amount){
+        return ticketService.fundAccount(amount);
+    }
 }

@@ -177,7 +177,7 @@ function buyTicket() {
         data: JSON.stringify(ticketTab),
         success: function () {
             console.log('Kupiłeś bilet/y, teraz możesz korzystać z zakładki atrakcje');
-            //fundAccount()
+            fundAccount()
             window.location.href = "http://localhost:8080/attractions"
         },
         error: function () {
@@ -188,7 +188,7 @@ function buyTicket() {
 
 function fundAccount() {
     $.ajax({
-        url: "http://localhost:8080/buyTicket1",
+        url: "http://localhost:8080/fundAccount",
         method: "POST",
         data:{
             "amount": result.value
@@ -197,6 +197,7 @@ function fundAccount() {
             console.log('Konto muzeum zostało zasilone kwotą ' + result.value);
         },
         error: function () {
+            console.log('Konto muzeum nie zostało zasilone')
         },
     })
 }
