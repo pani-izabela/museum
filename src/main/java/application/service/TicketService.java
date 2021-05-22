@@ -11,4 +11,6 @@ import java.util.List;
 public interface TicketService {
     ResponseEntity<Object> addTicket(List<Ticket> tickets);
     ResponseEntity<Object> fundAccount(String amount);
+    List<Ticket> getAllTickets();
+    boolean getClientsTickets();
 }

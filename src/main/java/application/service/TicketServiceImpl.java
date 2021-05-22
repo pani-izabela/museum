@@ -3,10 +3,8 @@ package application.service;
 import application.components.springSecurity.CustomAuthenticationSuccessHandler;
 import application.dao.ClientDAO;
 import application.dao.MuseumFinanceDAO;
-import application.model.AppUser;
-import application.model.Client;
-import application.model.MuseumFinance;
-import application.model.Ticket;
+import application.dao.TicketDAO;
+import application.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,18 +16,19 @@ public class TicketServiceImpl implements TicketService {
 
     private final MuseumFinanceDAO museumFinanceDAO;
     private final ClientDAO clientDAO;
+    private final TicketDAO ticketDAO;
     private final CustomAuthenticationSuccessHandler successHandler;
 
-    public TicketServiceImpl(MuseumFinanceDAO museumFinanceDAO, ClientDAO clientDAO, CustomAuthenticationSuccessHandler successHandler) {
+    public TicketServiceImpl(MuseumFinanceDAO museumFinanceDAO, ClientDAO clientDAO, TicketDAO ticketDAO, CustomAuthenticationSuccessHandler successHandler) {
         this.museumFinanceDAO = museumFinanceDAO;
         this.clientDAO = clientDAO;
+        this.ticketDAO = ticketDAO;
         this.successHandler = successHandler;
     }
 
     @Override
     public ResponseEntity<Object> addTicket(List<Ticket> tickets) {
-        AppUser appUser = successHandler.getAppUser();
-        Client client = clientDAO.getClientByAppUser(appUser);
+        Client client = getClient();
         List<Ticket> listTicketFromDB = client.getTickets();
         listTicketFromDB.addAll(tickets);
         clientDAO.updateClientTickets(client, listTicketFromDB);
@@ -44,4 +43,34 @@ public class TicketServiceImpl implements TicketService {
         museumFinanceDAO.updateAmount(museumFinance, amountFromDB);
         return new ResponseEntity<>(museumFinance.toString(), HttpStatus.OK);
     }
+
+    @Override
+    public List<Ticket> getAllTickets() {
+        return ticketDAO.getAllTickets();
+    }
+
+    @Override
+    public boolean getClientsTickets() {
+        boolean clientBoughtTicket = false;
+        Client client = getClient();
+        if(client!=null){
+            List<Ticket> listTicketFromDB = client.getTickets();
+            if(!listTicketFromDB.isEmpty()){
+                clientBoughtTicket = true;
+            }
+        }
+        else {
+            clientBoughtTicket = true;
+            //jesli zalogowany appUser nie figuruje jednoczesnie w tabeli CLIENT tzn, że nie jest klientem, musi
+            //mieć rolę admina albo employee albo director, a oni mogą oglądać atrakcje.
+            //AppUser nie może mieć roli dodatkowej do klienta
+        }
+        return clientBoughtTicket;
+    }
+
+    private Client getClient() {
+        AppUser appUser = successHandler.getAppUser();
+        return clientDAO.getClientByAppUser(appUser);
+    }
+
 }

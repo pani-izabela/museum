@@ -5,6 +5,7 @@ $(document).ready(function () {
     hideForms();
     deleteForm();
     setSum();
+    getTickets();
 })
 
 var inp1, inp2, inp3, inp4, result, sel1, sel2, sel3, sel4;
@@ -176,7 +177,7 @@ function buyTicket() {
         contentType: "application/json",
         data: JSON.stringify(ticketTab),
         success: function () {
-            console.log('Kupiłeś bilet/y, teraz możesz korzystać z zakładki atrakcje');
+            console.log('Udało się kupić bilet/y');
             fundAccount()
             window.location.href = "http://localhost:8080/attractions"
         },
@@ -202,8 +203,26 @@ function fundAccount() {
     })
 }
 
-/*
-function unlockAttraction(){
-    $('#ticketlessView').hide();
-    $('#viewWithTicket').show();
-}*/
+function getTickets(){
+    $.ajax({
+        url: "http://localhost:8080/getTickets",
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            $('#ticketsTable').DataTable({
+                data: data,
+                paging: true,
+                searching: false,
+                destroy: true,
+                autoWidth: true,
+                columns: [{
+                    data: "type"
+                }, {
+                    data: "id"
+                }, {
+                    data: "price"
+                }]
+            })}
+    });
+}
+
