@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.dto.TicketStatisticDTO;
 import application.model.Ticket;
 import application.service.TicketService;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +29,15 @@ public class TicketController {
         return ticketService.fundAccount(amount);
     }
 
-    @GetMapping(value = "/getTickets")
+    /*@GetMapping(value = "/getTickets")
     public List<Ticket> getAllTickets(){
         return ticketService.getAllTickets();
+    }*/
+    @GetMapping(value = "/getTickets")
+    public List<TicketStatisticDTO> getAllTickets(){
+        return ticketService.getTicketStatistic();
     }
+
 
     @GetMapping(value = "/checkClientsTicket")
     public boolean checkTicket(){

@@ -4,12 +4,18 @@ import application.components.springSecurity.CustomAuthenticationSuccessHandler;
 import application.dao.ClientDAO;
 import application.dao.MuseumFinanceDAO;
 import application.dao.TicketDAO;
+import application.dto.TicketStatisticDTO;
 import application.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service("ticketService")
 public class TicketServiceImpl implements TicketService {
@@ -18,12 +24,15 @@ public class TicketServiceImpl implements TicketService {
     private final ClientDAO clientDAO;
     private final TicketDAO ticketDAO;
     private final CustomAuthenticationSuccessHandler successHandler;
+    @Resource(name = "myProps")
+    private final Properties properties;
 
     public TicketServiceImpl(MuseumFinanceDAO museumFinanceDAO, ClientDAO clientDAO, TicketDAO ticketDAO, CustomAuthenticationSuccessHandler successHandler) {
         this.museumFinanceDAO = museumFinanceDAO;
         this.clientDAO = clientDAO;
         this.ticketDAO = ticketDAO;
         this.successHandler = successHandler;
+        properties = new Properties();
     }
 
     @Override
@@ -66,6 +75,35 @@ public class TicketServiceImpl implements TicketService {
             //AppUser nie może mieć roli dodatkowej do klienta
         }
         return clientBoughtTicket;
+    }
+
+    @Override
+    public List<TicketStatisticDTO> getTicketStatistic() {
+        List<TicketStatisticDTO> listTicketStatistic = new ArrayList<>();
+        List<Ticket> ticketList = ticketDAO.getAllTickets();
+        for(int i=1; i<5; i++) {
+            addPositionToList(listTicketStatistic, ticketList, i);
+        }
+        return listTicketStatistic;
+    }
+
+    private void addPositionToList(List<TicketStatisticDTO> listTicketStatistic, List<Ticket> ticketList, int type) {
+        List<Ticket> normalTicketList = getTicketsListByType(ticketList, properties.getProperty("pages.tickets.ticketType"+type));
+        listTicketStatistic.add(getTicketStatisticDTO(normalTicketList, properties.getProperty("pages.tickets.ticketType"+type)));
+    }
+
+    private List<Ticket> getTicketsListByType(List<Ticket> ticketList, String type) {
+        return ticketList.stream()
+                    .filter(t->t.getType().equals(type))
+                    .collect(Collectors.toList());
+    }
+
+    private TicketStatisticDTO getTicketStatisticDTO(List<Ticket> normalTicketList, String type) {
+        TicketStatisticDTO ticketStatisticDTO = new TicketStatisticDTO();
+        ticketStatisticDTO.setType(type);
+        ticketStatisticDTO.setQuantity(normalTicketList.size());
+        ticketStatisticDTO.setAmount(normalTicketList.stream().mapToDouble(Ticket::getPrice).sum());
+        return ticketStatisticDTO;
     }
 
     private Client getClient() {

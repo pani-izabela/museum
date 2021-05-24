@@ -203,7 +203,7 @@ function fundAccount() {
     })
 }
 
-function getTickets(){
+/*function getTickets(){
     $.ajax({
         url: "http://localhost:8080/getTickets",
         type: 'GET',
@@ -221,6 +221,28 @@ function getTickets(){
                     data: "id"
                 }, {
                     data: "price"
+                }]
+            })}
+    });
+}*/
+function getTickets(){
+    $.ajax({
+        url: "http://localhost:8080/getTickets",
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            $('#ticketsTable').DataTable({
+                data: data,
+                paging: false,
+                searching: false,
+                destroy: true,
+                autoWidth: true,
+                columns: [{
+                    data: "type"
+                }, {
+                    data: "quantity"
+                }, {
+                    data: "amount"
                 }]
             })}
     });

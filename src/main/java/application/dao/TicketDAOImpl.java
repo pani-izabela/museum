@@ -27,4 +27,16 @@ public class TicketDAOImpl implements TicketDAO {
             return null;
         }
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Ticket> getTicketsByType(String type) {
+        try {
+            return em.createNamedQuery(Ticket.GET_TICKETS_BY_TYPE, Ticket.class)
+                    .setParameter("type", type)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }
