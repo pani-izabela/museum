@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service("ticketService")
 public class TicketServiceImpl implements TicketService {
@@ -24,8 +23,10 @@ public class TicketServiceImpl implements TicketService {
     private final ClientDAO clientDAO;
     private final TicketDAO ticketDAO;
     private final CustomAuthenticationSuccessHandler successHandler;
+    //private final AppUserDAO appUserDAO;
     @Resource(name = "myProps")
     private final Properties properties;
+
 
     public TicketServiceImpl(MuseumFinanceDAO museumFinanceDAO, ClientDAO clientDAO, TicketDAO ticketDAO, CustomAuthenticationSuccessHandler successHandler) {
         this.museumFinanceDAO = museumFinanceDAO;
@@ -41,7 +42,8 @@ public class TicketServiceImpl implements TicketService {
         List<Ticket> listTicketFromDB = client.getTickets();
         listTicketFromDB.addAll(tickets);
         clientDAO.updateClientTickets(client, listTicketFromDB);
-        return new ResponseEntity<>("Bilety zostały kupione", HttpStatus.OK);
+        String email = client.getAppUser().getEmail();
+        return new ResponseEntity<>(("Bilety zostały kupione przez " + email), HttpStatus.OK);
     }
 
     @Override
@@ -49,8 +51,8 @@ public class TicketServiceImpl implements TicketService {
         MuseumFinance museumFinance = museumFinanceDAO.getFinanceByKey("kwota");
         float amountFromDB = (float) museumFinance.getAmount();
         amountFromDB = Float.parseFloat(amount) + amountFromDB;
-        museumFinanceDAO.updateAmount(museumFinance, amountFromDB);
-        return new ResponseEntity<>(museumFinance.toString(), HttpStatus.OK);
+        MuseumFinance museumFinanceAfterUpdate = museumFinanceDAO.updateAmount(museumFinance, amountFromDB);
+        return new ResponseEntity<>("Aktualne finanse Muzeum to: " + museumFinanceAfterUpdate.getAmount(), HttpStatus.OK);
     }
 
     @Override
@@ -87,6 +89,8 @@ public class TicketServiceImpl implements TicketService {
         return listTicketStatistic;
     }
 
+    //------------------------------------------------------------prywatne
+
     private void addPositionToList(List<TicketStatisticDTO> listTicketStatistic, List<Ticket> ticketList, int type) {
         List<Ticket> normalTicketList = getTicketsListByType(ticketList, properties.getProperty("pages.tickets.ticketType"+type));
         listTicketStatistic.add(getTicketStatisticDTO(normalTicketList, properties.getProperty("pages.tickets.ticketType"+type)));
@@ -109,6 +113,7 @@ public class TicketServiceImpl implements TicketService {
     private Client getClient() {
         AppUser appUser = successHandler.getAppUser();
         return clientDAO.getClientByAppUser(appUser);
+        /*User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();*/
     }
 
 }
