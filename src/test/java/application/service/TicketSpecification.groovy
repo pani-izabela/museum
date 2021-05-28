@@ -4,7 +4,10 @@ import application.components.springSecurity.CustomAuthenticationSuccessHandler
 import application.dao.ClientDAO
 import application.dao.MuseumFinanceDAO
 import application.dao.TicketDAO
+import application.model.AppUser
+import application.model.Client
 import application.model.MuseumFinance
+import application.model.Ticket
 import spock.lang.Specification
 
 class TicketSpecification extends Specification{
@@ -37,8 +40,8 @@ class TicketSpecification extends Specification{
 
     }
 
-    //zeby wyszło muszę sprawdzić jak zamockować uzywaną metodę pobierania zalogowanego użytkownika
-    /*def "method addTicket return HttpStatus OK"(){
+    def "method addTicket return HttpStatus OK"(){
+
         given: "prepare list of tickets"
         def appUser = new AppUser()
         appUser.setId(11)
@@ -46,14 +49,12 @@ class TicketSpecification extends Specification{
         appUser.setSurname('Nowak')
         appUser.setEmail("a.nowak@wp.pl")
         appUser.setPassword('QQqq!!')
-        authenticationSuccess.getAppUser() >> appUser
 
         def client = new Client()
         client.setId(12)
         client.setAppUser(appUser)
 
         def ticketsList = new ArrayList()
-        client.getAppUser() >> appUser
 
         def ticket1 = new Ticket()
         ticket1.setId(1)
@@ -72,7 +73,6 @@ class TicketSpecification extends Specification{
         ticket4.setType("normal")
         ticket4.setPrice(100.00)
 
-        //def ticketsList = new ArrayList()
         ticketsList.add(ticket1)
         ticketsList.add(ticket2)
         ticketsList.add(ticket3)
@@ -80,14 +80,13 @@ class TicketSpecification extends Specification{
 
         client.setTickets(ticketsList)
 
+        authenticationSuccess.getAppUser() >> appUser
+        clientDatabase.getClientByAppUser(appUser) >> client
 
         when: "call addTicket method"
-        ticketService.getClient() >> client
         def obj = ticketService.addTicket(ticketsList)
 
-        then: "check status code"
-        obj.toString().contains("200 OK")
-        then: "check status code"
-        obj.getStatusCode().toString() == "200 OK"
-    }*/
+        then: "check the email of the user who bought the ticket"
+        obj.body == "Bilety zostały kupione przez a.nowak@wp.pl"
+    }
 }
