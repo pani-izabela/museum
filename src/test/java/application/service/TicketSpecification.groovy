@@ -1,14 +1,10 @@
 package application.service
 
 import application.components.springSecurity.CustomAuthenticationSuccessHandler
-import application.dao.AppUserDAO
 import application.dao.ClientDAO
 import application.dao.MuseumFinanceDAO
 import application.dao.TicketDAO
-import application.model.AppUser
-import application.model.Client
 import application.model.MuseumFinance
-import application.model.Ticket
 import spock.lang.Specification
 
 class TicketSpecification extends Specification{
@@ -33,7 +29,6 @@ class TicketSpecification extends Specification{
 
         museumFinanceDatabase.updateAmount(museumFinance1, 1200.00) >> museumFinance2
 
-
         when: "call fundAmount method"
         def obj = ticketService.fundAccount("200.00")
 
@@ -42,7 +37,7 @@ class TicketSpecification extends Specification{
 
     }
 
-    //rzeby wyszło muszę sprawdzić jak zamockować uzywaną metodę pobierania zalogowanego użytkownika
+    //zeby wyszło muszę sprawdzić jak zamockować uzywaną metodę pobierania zalogowanego użytkownika
     /*def "method addTicket return HttpStatus OK"(){
         given: "prepare list of tickets"
         def appUser = new AppUser()

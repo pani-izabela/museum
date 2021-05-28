@@ -23,7 +23,6 @@ public class TicketServiceImpl implements TicketService {
     private final ClientDAO clientDAO;
     private final TicketDAO ticketDAO;
     private final CustomAuthenticationSuccessHandler successHandler;
-    //private final AppUserDAO appUserDAO;
     @Resource(name = "myProps")
     private final Properties properties;
 

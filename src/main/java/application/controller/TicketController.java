@@ -29,15 +29,10 @@ public class TicketController {
         return ticketService.fundAccount(amount);
     }
 
-    /*@GetMapping(value = "/getTickets")
-    public List<Ticket> getAllTickets(){
-        return ticketService.getAllTickets();
-    }*/
     @GetMapping(value = "/getTickets")
     public List<TicketStatisticDTO> getAllTickets(){
         return ticketService.getTicketStatistic();
     }
-
 
     @GetMapping(value = "/checkClientsTicket")
     public boolean checkTicket(){

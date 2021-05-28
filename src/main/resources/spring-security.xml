@@ -22,10 +22,15 @@
         <intercept-url pattern="/client/register" access="permitAll()"/>
         <intercept-url pattern="/employee/register" access="permitAll()"/>
         <intercept-url pattern="/postLoginUser" access="hasAnyAuthority('client', 'employee', 'director', 'admin')"/>
+        <intercept-url pattern="/postLoginUser.html" access="hasAnyAuthority('client', 'employee', 'director', 'admin')"/>
         <intercept-url pattern="/admin/onlyForAdmin" access="hasAnyAuthority('admin')"/>
+        <intercept-url pattern="/admin/onlyForAdmin.html" access="hasAnyAuthority('admin')"/>
         <intercept-url pattern="/employees" access="hasAnyAuthority('admin', 'director')"/>
+        <intercept-url pattern="/employees.html" access="hasAnyAuthority('admin', 'director')"/>
         <intercept-url pattern="/tickets" access="isAuthenticated()"/>
         <intercept-url pattern="/tickets.html" access="isAuthenticated()"/>
+        <intercept-url pattern="/attractions.html" access="isAuthenticated()"/>
+        <intercept-url pattern="/attractions" access="isAuthenticated()"/>
 
 
         <!--poniżej podajemy na której z podstron znajduje się nasz formularz logowania-->
