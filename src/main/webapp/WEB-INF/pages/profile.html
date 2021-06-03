@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/main.css" type="text/css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="/js/main.js"></script>
+
+</head>
+<body>
+<div id="navbarOnPage"></div>
+<br>
+<div id="container" class="container-fluid text-center">
+    <h3>Profil</h3>
+    <br>
+    <form>
+        <fieldset class="border rounded" style="width: 800px; margin: auto" disabled>
+            <div id="dataFields1" class="row justify-content-center m-2">
+                <div class="col-auto">
+                    <input type="text" class="border-0" id="nameField" value="xxx" size="30" style="text-align: center"/>
+                </div>
+                <div class="col-auto">
+<!--                    <input type="text" id="lastNameField" disabled sec:authentication="principal.username"/>&ndash;&gt;-->
+                    <input type="text" class="border-0" id="lastNameField" value="fff" size="30"/>
+                </div>
+            </div>
+            <div id="dataFields2" class="row justify-content-center m-2">
+                <div class="col-auto">
+                    <input type="text" class="border-0" id="passwordField" value="vvv" size="30"/>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="border-0" id="emailField2" value="hhh" size="30"/>
+                </div>
+            </div>
+        </fieldset>
+        <div>
+            <div class="row justify-content-center m-5">
+                <div class="col-md-4 text-center">
+                    <a class="btn w-25 btn-light float-left" onclick="javascript:history.back(-1)">Wróć</a>
+                    <button type="button" class="btn w-25 btn-dark float-right" onclick="">Zmień</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div id="footerOnPage"></div>
+</body>
+</html>
+
+
+<!--
+<div id="fields" class="is-readonly border rounded" style="background: #EFEFEF4D">
+    <div id="dataFields1" class="row justify-content-center m-2">
+        <div class="col-2">
+            <input type="text" class="border-0" id="nameField" value="xxx" style="background: #EFEFEF4D" disabled/>
+        </div>
+        <div class="col-2">
+            &lt;!&ndash;                    <input type="text" id="lastNameField" disabled sec:authentication="principal.username"/>&ndash;&gt;
+            <input type="text" class="border-0" id="lastNameField" value="fff" style="background: #EFEFEF4D" disabled/>
+        </div>
+    </div>
+    <div id="dataFields2" class="row justify-content-center m-2">
+        <div class="col-2">
+            <input type="text" class="border-0" id="passwordField" value="vvv" disabled/>
+        </div>
+        <div class="col-2">
+            <input type="text" class="border-0" id="emailField2" value="hhh" disabled/>
+        </div>
+    </div>
+</div>-->

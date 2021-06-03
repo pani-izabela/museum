@@ -31,6 +31,8 @@
         <intercept-url pattern="/tickets.html" access="isAuthenticated()"/>
         <intercept-url pattern="/attractions.html" access="isAuthenticated()"/>
         <intercept-url pattern="/attractions" access="isAuthenticated()"/>
+        <intercept-url pattern="/profile" access="isAuthenticated()"/>
+        <intercept-url pattern="/profile.html" access="isAuthenticated()"/>
 
 
         <!--poniżej podajemy na której z podstron znajduje się nasz formularz logowania-->

@@ -86,4 +86,9 @@ public class ViewController {
     public String getEmployees() {
         return "employees";
     }
+
+    @GetMapping(value = "/profile")
+    public String getProfile() {
+        return "profile";
+    }
 }
