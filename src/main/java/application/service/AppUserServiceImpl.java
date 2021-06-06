@@ -1,5 +1,6 @@
 package application.service;
 
+import application.components.springSecurity.MyUserDetails;
 import application.dao.AppUserDAO;
 import application.dao.ClientDAO;
 import application.dao.EmployeeDAO;
@@ -11,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -114,13 +113,12 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     //-------------spring security
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public MyUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser appUser = appUserDAO.findByEmail(username);
         if(appUser == null){
             throw new UsernameNotFoundException("Nie mogę znaleźć takiego usera");
         }
-        return new User(username, appUser.getPassword(), appUser.getEnabled(),
-                true, true, appUser.getAccountNonLocked(), getAuthorities(appUser));
+        return new MyUserDetails(appUser);
     }
 
     //--------- metody prywatne ----------
