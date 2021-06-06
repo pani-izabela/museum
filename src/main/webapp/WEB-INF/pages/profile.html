@@ -11,6 +11,7 @@
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 
     <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/profile.js"></script>
 
 </head>
 <body>
@@ -19,30 +20,31 @@
 <div id="container" class="container-fluid text-center">
     <h3>Profil</h3>
     <br>
-    <form>
-        <fieldset class="border rounded" style="width: 800px; margin: auto; background: lightgray" disabled>
+    <form id="userDataForm">
+        <fieldset id="userDataProfile" class="border rounded" style="width: 800px; margin: auto; background: lightgray" disabled>
             <div id="dataFields1" class="row justify-content-center m-2">
                 <div class="col-auto">
-                    <input type="text" class="border-0" id="nameField" th:value="${#authentication.getPrincipal().getName()}" size="30" style="text-align: center; background: lightgray"/>
+                    <input type="text" class="inp border-0" id="nameField" th:value="${#authentication.getPrincipal().getName()}" size="30" style="text-align: center; background: lightgray"/>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="border-0" id="lastNameField" th:value="${#authentication.getPrincipal().getSurName()}" size="30" style="text-align: center; background: lightgray"/>
+                    <input type="text" class="inp border-0" id="lastNameField" th:value="${#authentication.getPrincipal().getSurName()}" size="30" style="text-align: center; background: lightgray"/>
                 </div>
             </div>
             <div id="dataFields2" class="row justify-content-center m-2">
                 <div class="col-auto">
-                    <input type="text" class="border-0" id="passwordField" th:value="${#authentication.getPrincipal().getPassword()}" size="30" style="text-align: center; background: lightgray"/>
+                    <input type="text" class="inp border-0" id="passwordField" th:value="${#authentication.getPrincipal().getPassword()}" size="30" style="text-align: center; background: lightgray"/>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="border-0" id="emailField2" th:value="${#authentication.getPrincipal().getUsername()}" size="30" style="text-align: center; background: lightgray"/>
+                    <input type="text" class="inp border-0" id="emailField2" th:value="${#authentication.getPrincipal().getUsername()}" size="30" style="text-align: center; background: lightgray"/>
                 </div>
             </div>
         </fieldset>
         <div>
             <div class="row justify-content-center m-5">
                 <div class="col-md-4 text-center">
-                    <a class="btn w-25 btn-light float-left" onclick="javascript:history.back(-1)">Wróć</a>
-                    <button type="button" class="btn w-25 btn-dark float-right" onclick="">Zmień</button>
+                    <a id="backBtn" class="btn w-25 btn-light float-left" onclick="resignFromChangingData()">Wróć</a>
+                    <button id="changeBtn" type="button" class="btn w-25 btn-dark float-right" onclick="changeUserData()">Zmień</button>
+                    <button id="submitBtn" type="button" class="btn w-25 btn-dark float-right" onclick="">Zatwierdź</button>
                 </div>
             </div>
         </div>
@@ -52,25 +54,3 @@
 <div id="footerOnPage"></div>
 </body>
 </html>
-
-
-<!--
-<div id="fields" class="is-readonly border rounded" style="background: #EFEFEF4D">
-    <div id="dataFields1" class="row justify-content-center m-2">
-        <div class="col-2">
-            <input type="text" class="border-0" id="nameField" value="xxx" style="background: #EFEFEF4D" disabled/>
-        </div>
-        <div class="col-2">
-            &lt;!&ndash;                    <input type="text" id="lastNameField" disabled sec:authentication="principal.username"/>&ndash;&gt;
-            <input type="text" class="border-0" id="lastNameField" value="fff" style="background: #EFEFEF4D" disabled/>
-        </div>
-    </div>
-    <div id="dataFields2" class="row justify-content-center m-2">
-        <div class="col-2">
-            <input type="text" class="border-0" id="passwordField" value="vvv" disabled/>
-        </div>
-        <div class="col-2">
-            <input type="text" class="border-0" id="emailField2" value="hhh" disabled/>
-        </div>
-    </div>
-</div>-->
