@@ -46,8 +46,8 @@ function submitChangeDataAppUser(){
         error: function (res) {
             alert(res.responseText);
         }
-
     })
+    setFormDisabled();
 }
 
 function prepareDataToChange() {
