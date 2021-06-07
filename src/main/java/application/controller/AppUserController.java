@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.dto.AppUserRegisterDTO;
 import application.dto.ClientRegisterDTO;
 import application.dto.EmployeeRegisterDTO;
 import application.model.AppUser;
@@ -32,6 +33,11 @@ public class AppUserController {
     @PostMapping(value = "/changePassword", produces = "text/plain;charset=UTF-8")
     public ResponseEntity<Object> changePass(String email, String newPass){
         return appUserService.changePass(email, newPass);
+    }
+
+    @PostMapping(value = "/changeDataAppUser")
+    public @ResponseBody ResponseEntity<Object> changeDataAppUser(@RequestBody AppUserRegisterDTO appUserRegisterDTO){
+        return appUserService.changeDataOfUser(appUserRegisterDTO);
     }
 
     @GetMapping(value = "/getRoles")

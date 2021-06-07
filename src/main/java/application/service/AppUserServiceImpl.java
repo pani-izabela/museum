@@ -1,5 +1,6 @@
 package application.service;
 
+import application.components.springSecurity.CustomAuthenticationSuccessHandler;
 import application.components.springSecurity.MyUserDetails;
 import application.dao.AppUserDAO;
 import application.dao.ClientDAO;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -110,6 +112,18 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         return appUserDAO.updateAppUser(appUser);
     }
 
+    @Override
+    public ResponseEntity<Object> changeDataOfUser(AppUserRegisterDTO appUserRegisterDTO) {
+        AppUser appUserFromDB = getLoggedAppUser();
+        if(appUserFromDB==null){
+            return new ResponseEntity<>(properties.getProperty("service.appUserServiceImpl.ERROR_CHANGE_DATA"), HttpStatus.BAD_REQUEST);
+        }
+        else{
+            updateDataOfAppUser(appUserRegisterDTO, appUserFromDB);
+        }
+        return new ResponseEntity<>(properties.getProperty("service.appUserServiceImpl.CHANGE_DATA"), HttpStatus.OK);
+    }
+
     //-------------spring security
 
     @Override
@@ -205,6 +219,27 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         else {
             return null;
         }
+    }
+
+    private void updateDataOfAppUser(AppUserRegisterDTO appUserRegisterDTO, AppUser appUserFromDB) {
+        if(!appUserFromDB.getEmail().equals(appUserRegisterDTO.getEmail())){
+            appUserFromDB.setEmail(appUserRegisterDTO.getEmail());
+        }
+        if(!appUserFromDB.getName().equals(appUserRegisterDTO.getFirstName())){
+            appUserFromDB.setName(appUserRegisterDTO.getFirstName());
+        }
+        if(!appUserFromDB.getSurname().equals(appUserRegisterDTO.getLastName())){
+            appUserFromDB.setSurname(appUserRegisterDTO.getLastName());
+        }
+        if(!appUserFromDB.getPassword().equals(appUserRegisterDTO.getPassword())){
+            appUserFromDB.setPassword(appUserRegisterDTO.getPassword());
+        }
+        updateAppUser(appUserFromDB);
+    }
+
+    private AppUser getLoggedAppUser(){
+        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return appUserDAO.findByEmail(myUserDetails.getUsername());
     }
 
 //    ------Spring security

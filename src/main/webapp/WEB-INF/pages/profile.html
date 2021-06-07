@@ -35,7 +35,7 @@
                     <input type="text" class="inp border-0" id="passwordField" th:value="${#authentication.getPrincipal().getPassword()}" size="30" style="text-align: center; background: lightgray"/>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="inp border-0" id="emailField2" th:value="${#authentication.getPrincipal().getUsername()}" size="30" style="text-align: center; background: lightgray"/>
+                    <input type="text" class="inp border-0" id="emailField" th:value="${#authentication.getPrincipal().getUsername()}" size="30" style="text-align: center; background: lightgray"/>
                 </div>
             </div>
         </fieldset>
@@ -44,7 +44,7 @@
                 <div class="col-md-4 text-center">
                     <a id="backBtn" class="btn w-25 btn-light float-left" onclick="resignFromChangingData()">Wróć</a>
                     <button id="changeBtn" type="button" class="btn w-25 btn-dark float-right" onclick="changeUserData()">Zmień</button>
-                    <button id="submitBtn" type="button" class="btn w-25 btn-dark float-right" onclick="">Zatwierdź</button>
+                    <button id="submitBtn" type="button" class="btn w-25 btn-dark float-right" onclick="submitChangeDataAppUser()">Zatwierdź</button>
                 </div>
             </div>
         </div>

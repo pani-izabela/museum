@@ -1,5 +1,6 @@
 package application.service;
 
+import application.dto.AppUserRegisterDTO;
 import application.dto.ClientRegisterDTO;
 import application.dto.EmployeeRegisterDTO;
 import application.model.AppUser;
@@ -16,5 +17,7 @@ public interface AppUserService {
     AppUser getAppUserByEmail(String email);
     void deleteAppUser(int id);
     AppUser updateAppUser(AppUser appUser);
+    ResponseEntity<Object> changeDataOfUser(AppUserRegisterDTO appUserRegisterDTO);
+
 
 }
