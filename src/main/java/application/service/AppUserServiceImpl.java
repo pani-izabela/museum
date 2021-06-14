@@ -11,8 +11,10 @@ import application.dto.EmployeeRegisterDTO;
 import application.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -121,7 +123,8 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         else{
             updateDataOfAppUser(appUserRegisterDTO, appUserFromDB);
         }
-        return new ResponseEntity<>(properties.getProperty("service.appUserServiceImpl.CHANGE_DATA"), HttpStatus.OK);
+        String textToResponse = ((appUserFromDB.getName() + " " + appUserFromDB.getSurname() + " " + properties.getProperty("service.appUserServiceImpl.CHANGE_DATA")));
+        return new ResponseEntity<>(textToResponse, HttpStatus.OK);
     }
 
     //-------------spring security
@@ -238,7 +241,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     }
 
     private AppUser getLoggedAppUser(){
-        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MyUserDetails myUserDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return appUserDAO.findByEmail(myUserDetails.getUsername());
     }
 

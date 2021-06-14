@@ -66,4 +66,10 @@ public class MyUserDetails implements UserDetails {
     public String getSurName(){
         return this.appUser.getSurname();
     }
+
+    public String getEmail(){return this.appUser.getEmail();}
+
+    public void setEmail(String email) {
+        this.appUser.setEmail(email);
+    }
 }
