@@ -251,7 +251,7 @@ div.footer {
 </div>
 <div class='summary-report'>
 <h3>Summary:</h3>
-<div class='date-test-ran'>Created on Mon Jun 14 10:41:54 CEST 2021 by ilach</div>
+<div class='date-test-ran'>Created on Wed Jun 16 22:29:46 CEST 2021 by ilach</div>
 <table class='summary-table'>
 <thead>
 <th>Executed features</th>
@@ -264,11 +264,11 @@ div.footer {
 <tbody>
 <tr>
 <td>1</td>
+<td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0</td>
-<td>100,0%</td>
-<td>0,178 seconds</td>
+<td>0,0%</td>
+<td>37,499 seconds</td>
 </tr>
 </tbody>
 </table>
@@ -282,12 +282,12 @@ div.footer {
 <tbody>
 <ul id='toc'>
 <li>
-<a href='#-1320594445' class='feature-toc-pass'>method changeDataOfUser allows to change the surname of appUser</a>
+<a href='#-1320594445' class='feature-toc-failure'>method changeDataOfUser allows to change the surname of appUser</a>
 </li>
 </ul>
 <tr>
 <td colspan='10'>
-<div class='feature-description' id='-1320594445'>
+<div class='feature-description failure' id='-1320594445'>
 <span>method changeDataOfUser allows to change the surname of appUser</span>
 <span style='float: right; font-size: 60%;'>
 <a href='#toc'>Return</a>
@@ -317,6 +317,20 @@ div.footer {
 </td>
 <td>
 <div class='block-text'>surname of AppUser has been changed</div>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='problem-description'>
+<div class='problem-header'>The following problems occurred:</div>
+<div class='problem-list'>
+<ul>
+<li>
+<pre>Condition not satisfied:<br/><br/>objResult.toString().contains(appUserDTO.getLastName())<br/>|         |          |        |          |<br/>|         |          false    |          Kowalska<br/>|         &lt;200 OK OK,[]&gt;      AppUserRegisterDTO(email=a.nowak@wp.pl, firstName=Anna, lastName=Kowalska, password=QQqq!!)<br/>&lt;200 OK OK,[]&gt;<br/></pre>
+</li>
+</ul>
+</div>
+</div>
 </td>
 </tr>
 </tbody>

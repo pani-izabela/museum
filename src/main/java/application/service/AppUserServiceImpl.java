@@ -123,7 +123,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         else{
             updateDataOfAppUser(appUserRegisterDTO, appUserFromDB);
         }
-        String textToResponse = ((appUserFromDB.getName() + " " + appUserFromDB.getSurname() + " " + properties.getProperty("service.appUserServiceImpl.CHANGE_DATA")));
+        String textToResponse = ((appUserFromDB.getName() + " " + appUserFromDB.getSurname() + " " + (properties.getProperty("service.appUserServiceImpl.CHANGE_DATA"))));
         return new ResponseEntity<>(textToResponse, HttpStatus.OK);
     }
 
