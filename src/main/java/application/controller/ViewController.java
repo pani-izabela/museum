@@ -82,6 +82,11 @@ public class ViewController {
         return "donation";
     }
 
+    @GetMapping(value = "/donationForm")
+    public String addDonation() {
+        return "donationForm";
+    }
+
     @GetMapping(value = "/employees")
     public String getEmployees() {
         return "employees";

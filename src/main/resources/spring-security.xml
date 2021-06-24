@@ -33,6 +33,10 @@
         <intercept-url pattern="/attractions" access="isAuthenticated()"/>
         <intercept-url pattern="/profile" access="isAuthenticated()"/>
         <intercept-url pattern="/profile.html" access="isAuthenticated()"/>
+        <intercept-url pattern="/donation.html" access="isAuthenticated()"/>
+        <intercept-url pattern="/donation" access="isAuthenticated()"/>
+        <intercept-url pattern="/donationForm" access="hasAnyAuthority('client')"/>
+        <intercept-url pattern="/donationForm.html" access="hasAnyAuthority('client')"/>
 
 
         <!--poniżej podajemy na której z podstron znajduje się nasz formularz logowania-->
