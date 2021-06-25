@@ -6,13 +6,21 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+
+@NamedQueries({
+        @NamedQuery(name = Donation.GET_DONATIONS, query = Donation.QUERY_GET_DONATIONS)
+})
 
 @Entity
 @Table(name="DONATION")
 @Setter
 @Getter
 @NoArgsConstructor
-public class Donation {
+public class Donation implements Serializable {
+
+    public static final String GET_DONATIONS = "Donation.get_donations";
+    public static final String QUERY_GET_DONATIONS = "select d from Donation d";
 
     @Id
     @NotNull
