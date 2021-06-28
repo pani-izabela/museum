@@ -21,23 +21,11 @@
 <div id="container" class="container-fluid text-center">
     <h3>DAROWIZNY</h3>
     <br>
-    <div sec:authorize="hasAnyAuthority('client')" id="tableDonationClient" class="tableDonation">
-        <table id="donationsTableClient" class="table table-borderless">
+    <div id="tableDonation">
+        <table id="donationsTable" class="table table-borderless">
             <thead>
             <tr>
-                <th>lp</th>
-                <th>opis</th>
-                <th>kwota</th>
-            </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-    <div sec:authorize="hasAnyAuthority('admin','director', 'employee')" id="tableDonationEmployee" class="tableDonation">
-        <table id="donationsTableEmployee" class="table table-borderless">
-            <thead>
-            <tr>
-                <th>lp</th>
+                <th></th>
                 <th>opis</th>
                 <th>kwota</th>
                 <th>email</th>
@@ -50,7 +38,7 @@
     <div class="row justify-content-center">
         <div class="col-md-4 text-center">
             <a class="btn w-25 btn-light float-left" onclick="javascript:history.back(-1)">Wróć</a>
-            <a sec:authorize="hasAuthority('client')" role="button" class="btn w-25 btn-dark float-right" href="donationForm.html">Darowizna</a>
+            <a id="donationBtn" sec:authorize="hasAuthority('client')" role="button" class="btn w-25 btn-dark float-right" href="donationForm.html">Darowizna</a>
         </div>
     </div>
 </div>

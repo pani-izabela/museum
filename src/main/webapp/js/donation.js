@@ -1,6 +1,5 @@
 $(document).ready(function () {
     getDonations();
-    getDonationsViewClient();
 })
 
 function getDonations(){
@@ -9,44 +8,34 @@ function getDonations(){
         type: 'GET',
         dataType: 'json',
         success: function (data) {
-            $('#donationsTableEmployee').DataTable({
+            var myTable = $('#donationsTable').DataTable({
                 data: data,
-                paging: false,
+                paging: true,
                 searching: false,
                 destroy: true,
                 autoWidth: true,
                 columns: [{
-                    data: "lp"
+                    data: null,
+                    width: "5%"
                 }, {
                     data: "description"
                 }, {
                     data: "amount"
                 }, {
                     data: "email"
-                }
-                ]
-            })}
+                }],
+                columnDefs: [{ targets: 3, visible: $('#donationBtn').is(":visible") === false }],
+                order: [[ 1, 'asc' ]]
+            })
+            orderRows(myTable);
+        }
     });
 }
-function getDonationsViewClient(){
-    $.ajax({
-        url: "http://localhost:8080/getDonations",
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            $('#donationsTableClient').DataTable({
-                data: data,
-                paging: false,
-                searching: false,
-                destroy: true,
-                autoWidth: true,
-                columns: [{
-                    data: "lp"
-                }, {
-                    data: "description"
-                }, {
-                    data: "amount"
-                }]
-            })}
-    });
+
+function orderRows(data) {
+    data.on( 'order.dt search.dt', function () {
+        data.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
 }

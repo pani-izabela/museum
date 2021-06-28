@@ -2,7 +2,6 @@ package application.service;
 
 import application.dao.DonationDAO;
 import application.dto.DonationStatisticDTO;
-import application.model.Client;
 import application.model.Donation;
 import org.springframework.stereotype.Service;
 
@@ -20,28 +19,21 @@ public class DonationServiceImpl implements DonationService{
 
     @Override
     public List<DonationStatisticDTO> getDonationStatistic() {
-        List<DonationStatisticDTO> listDonationStatistic = new ArrayList<>();
         List<Donation> donationList = donationDAO.getAllDonations();
-        for(int i=1; i<=donationList.size(); i++) {
-            addPositionToList(listDonationStatistic, donationList);
-        }
-        return listDonationStatistic;
+        return getListDonationStatisticDTO(donationList);
     }
 
-    //------------------------------------------------------------prywatne
+    //---------------------------prywatne
 
-    private void addPositionToList(List<DonationStatisticDTO> listDonationStatistic, List<Donation> donationList){
-        listDonationStatistic.add(getDonationStatisticDTO(donationList));
-    }
-
-    private DonationStatisticDTO getDonationStatisticDTO(List<Donation> donationList){
-        DonationStatisticDTO donationStatisticDTO = new DonationStatisticDTO();
+    private List<DonationStatisticDTO> getListDonationStatisticDTO(List<Donation> donationList){
+        List<DonationStatisticDTO> listDonationStatistic = new ArrayList<>();
         for (Donation donation : donationList) {
+            DonationStatisticDTO donationStatisticDTO = new DonationStatisticDTO();
             donationStatisticDTO.setAmount(donation.getAmount());
             donationStatisticDTO.setDescription(donation.getDescription());
             donationStatisticDTO.setEmail(donation.getClient().getAppUser().getEmail());
-            donationStatisticDTO.setLp(donationList.size());
+            listDonationStatistic.add(donationStatisticDTO);
         }
-        return donationStatisticDTO;
+        return listDonationStatistic;
     }
 }
