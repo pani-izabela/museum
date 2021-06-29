@@ -27,4 +27,9 @@ public class DonationController {
     public ResponseEntity<Object> payDonation(String description, String amount){
         return donationService.payDonation(description, amount);
     }
+
+    @PostMapping(value = "/fundReserve")
+    public ResponseEntity<Object> fundReserve(String amount){
+        return donationService.fundReserve(amount);
+    }
 }

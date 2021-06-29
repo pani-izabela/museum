@@ -21,10 +21,27 @@ function payDonation(descriptionField, amountField) {
         },
         success: function (xhr) {
             alert(xhr);
+            fundReserve(amountField);
             window.location.href = "http://localhost:8080/donationForm";
         },
         error: function (xhr) {
             alert(xhr)
         }
+    })
+}
+
+function fundReserve(amount) {
+    $.ajax({
+        url: "http://localhost:8080/fundReserve",
+        method: "POST",
+        data:{
+            "amount": amount
+        },
+        success: function () {
+            console.log('Rezerwa muzeum została zasilona kwotą ' + amount);
+        },
+        error: function () {
+            console.log('Rezerwa muzeum nie została zasilona')
+        },
     })
 }

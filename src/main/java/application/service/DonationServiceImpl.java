@@ -4,9 +4,11 @@ import application.components.springSecurity.MyUserDetails;
 import application.dao.AppUserDAO;
 import application.dao.ClientDAO;
 import application.dao.DonationDAO;
+import application.dao.ReserveDAO;
 import application.dto.DonationStatisticDTO;
 import application.model.Client;
 import application.model.Donation;
+import application.model.Reserve;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,13 +25,15 @@ public class DonationServiceImpl implements DonationService{
     private final DonationDAO donationDAO;
     private final AppUserDAO appUserDAO;
     private final ClientDAO clientDAO;
+    private final ReserveDAO reserveDAO;
     @Resource(name = "myProps")
     private final Properties properties;
 
-    public DonationServiceImpl(DonationDAO donationDAO, AppUserDAO appUserDAO, ClientDAO clientDAO) {
+    public DonationServiceImpl(DonationDAO donationDAO, AppUserDAO appUserDAO, ClientDAO clientDAO, ReserveDAO reserveDAO) {
         this.donationDAO = donationDAO;
         this.appUserDAO = appUserDAO;
         this.clientDAO = clientDAO;
+        this.reserveDAO = reserveDAO;
         properties = new Properties();
     }
 
@@ -52,6 +56,15 @@ public class DonationServiceImpl implements DonationService{
         else {
             return new ResponseEntity<>(properties.getProperty("service.donationServiceImpl.THANKS"), HttpStatus.CREATED);
         }
+    }
+
+    @Override
+    public ResponseEntity<Object> fundReserve(String amount) {
+        Reserve reserve = reserveDAO.getReserveByKey("kwota");
+        float amountFromDB = (float) reserve.getAmount();
+        amountFromDB = Float.parseFloat(amount) + amountFromDB;
+        Reserve reserveAfterUpdate = reserveDAO.updateReserve(reserve, amountFromDB);
+        return new ResponseEntity<>("Aktualna rezerwa Muzeum wynosi: " + reserveAfterUpdate.getAmount(), HttpStatus.OK);
     }
 
     //---------------------------prywatne

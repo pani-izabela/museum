@@ -8,4 +8,5 @@ import java.util.List;
 public interface DonationService {
     List<DonationStatisticDTO> getDonationStatistic();
     ResponseEntity<Object> payDonation(String description, String amount);
+    ResponseEntity<Object> fundReserve(String amount);
 }
