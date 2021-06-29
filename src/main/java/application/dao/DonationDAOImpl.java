@@ -28,4 +28,14 @@ public class DonationDAOImpl implements DonationDAO{
             return null;
         }
     }
+
+    @Override
+    @Transactional
+    public Donation addDonation(Donation donation) {
+        try {
+            return em.merge(donation);
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }
