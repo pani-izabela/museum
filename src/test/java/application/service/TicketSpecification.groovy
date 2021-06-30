@@ -32,10 +32,10 @@ class TicketSpecification extends Specification{
 
         museumFinanceDatabase.updateAmount(museumFinance1, 1200.00) >> museumFinance2
 
-        when: "call fundAmount method"
+        when: "call fundAccount method"
         def obj = ticketService.fundAccount("200.00")
 
-        then: "chceck museum finances"
+        then: "check museum finances"
         obj.body == "Aktualne finanse Muzeum to: 1200.0"
 
     }
