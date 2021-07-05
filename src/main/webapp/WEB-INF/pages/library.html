@@ -6,15 +6,46 @@
     <title>Biblioteka</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery.dataTables.min.css" type="text/css">
+
     <script src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+
     <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/library.js"></script>
 </head>
 <body>
 <div id="navbarOnPage"></div>
 <br>
 <div id="container" class="container-fluid">
     <h3>BIBLIOTEKA</h3>
+    <br>
+    <div id="tableLibrary">
+        <table id="booksTable" class="table table-borderless">
+            <thead>
+            <tr>
+                <th></th>
+                <th>tytuł</th>
+                <th>rok</th>
+                <th>epoka</th>
+                <th>status</th>
+                <th>do kiedy?</th>
+                <th>email</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <a class="btn w-25 btn-light float-left" onclick="javascript:history.back(-1)">Wróć</a>
+            <a id="borrowBtn" sec:authorize="hasAuthority('client')" role="button" class="btn btn-light pink-background w-25 float-right">Wypożycz</a>
+            <a id="extendBtn" sec:authorize="hasAuthority('client')" role="button" class="btn btn-light orange-background w-25 mr-2 float-right">Przedłuż</a>
+            <a id="updateBtn" sec:authorize="hasAnyAuthority('admin','director', 'employee')" role="button" class="btn btn-light pink-background w-25 float-right">Aktualizuj</a>
+        </div>
+    </div>
 </div>
 <div id="footerOnPage"></div>
 </body>

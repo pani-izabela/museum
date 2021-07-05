@@ -6,3 +6,7 @@ footer{height: 50px}
     margin:0 auto;
     min-height:calc(100% - 50px);
 }
+
+/*ustawienia kolorów przycisków na stronie biblioteki*/
+.pink-background{background-color: mistyrose;}
+.orange-background{background-color: navajowhite}
