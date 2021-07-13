@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 function getBooks(){
     $.ajax({
-        url: "http://localhost:8080/getDonations",
+        url: "http://localhost:8080/getBooks",
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -18,17 +18,17 @@ function getBooks(){
                     data: null,
                     width: "5%"
                 }, {
-                    data: null
+                    data: "title"
                 }, {
-                    data: null
+                    data: "year"
                 }, {
-                    data: null
+                    data: "epoch"
                 }, {
-                    data: null
+                    data: "status"
                 }, {
-                    data: null
+                    data: "rental_time"
                 }, {
-                    data: null
+                    data: "email"
                 }],
                 columnDefs: [{ targets: 6, visible: $('#borrowBtn').is(":visible") === false }],
                 order: [[ 1, 'asc' ]]
