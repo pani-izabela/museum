@@ -23,6 +23,12 @@ function getBooks(){
                 destroy: true,
                 autoWidth: true,
                 columns: [{
+                    orderable: false,
+                    targets: 0,
+                    data: null,
+                    defaultContent: "",
+                    className: 'select-checkbox'
+                },{
                     data: null,
                     width: "5%"
                 }, {
@@ -44,7 +50,11 @@ function getBooks(){
                 }, {
                     data: "email"
                 }],
-                columnDefs: [{ targets: 6, visible: $('#borrowBtn').is(":visible") === false }],
+                columnDefs: [{ targets: 7, visible: $('#borrowBtn').is(":visible") === false }],
+                select: {
+                    style:    'os',
+                    selector: 'td:first-child'
+                },
                 order: [[ 1, 'asc' ]]
             })
             orderRows(myTable);
@@ -54,7 +64,7 @@ function getBooks(){
 
 function orderRows(data) {
     data.on( 'order.dt search.dt', function () {
-        data.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+        data.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
     } ).draw();
