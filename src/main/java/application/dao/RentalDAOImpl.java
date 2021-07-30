@@ -2,8 +2,7 @@ package application.dao;
 
 import application.model.AppUser;
 import application.model.Book;
-import application.model.Donation;
-import application.model.LibraryView;
+import application.model.Rental;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,20 +10,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-import java.util.List;
 
 @Repository
-public class LibraryDAOImpl implements LibraryDAO{
+public class RentalDAOImpl implements RentalDAO{
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager em;
 
+
     @Override
-    @Transactional(readOnly = true)
-    public List<LibraryView> getBooks() {
-        try{
-            return em.createNamedQuery(LibraryView.GET_BOOKS, LibraryView.class)
-                    .getResultList();
+    @Transactional
+    public Rental updateRental(Rental rental) {
+        try {
+            return em.merge(rental);
+
         } catch (NoResultException e) {
             return null;
         }
@@ -32,10 +31,10 @@ public class LibraryDAOImpl implements LibraryDAO{
 
     @Override
     @Transactional(readOnly = true)
-    public Book findByTitle(String title) {
+    public Rental findByBook(Book book) {
         try {
-            return em.createNamedQuery(Book.GET_BOOK_BY_TITLE, Book.class)
-                    .setParameter("title", title)
+            return em.createNamedQuery(Rental.GET_RENTAL_BY_ID_BOOK, Rental.class)
+                    .setParameter("book", book)
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;

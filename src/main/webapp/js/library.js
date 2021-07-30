@@ -69,3 +69,36 @@ function orderRows(data) {
         } );
     } ).draw();
 }
+
+function borrow() {
+    var table = $('#booksTable').DataTable();
+    var array = [];
+    var data = table.rows({selected:  true}).data();
+    array.push(data[0].title)
+    array.push(data[0].status)
+    if(!array[1]){
+        alert("Ta książka jest wypożyczona, wybierz inną")
+    }
+    else {
+        borrowBook(array[0])
+    }
+
+}
+
+function borrowBook(title) {
+    $.ajax({
+        url: "http://localhost:8080/borrowBook",
+        method: "POST",
+        scriptCharset: "utf-8",
+        data: {
+            "title": title
+        },
+        success: function () {
+            //getBooks()
+            alert("Wypożyczyłeś książkę pt. " + title)
+        },
+        error: function (xhr) {
+            alert(xhr.responseText);
+        }
+    })
+}

@@ -9,6 +9,10 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
+@NamedQueries({
+        @NamedQuery(name = Rental.GET_RENTAL_BY_ID_BOOK, query = Rental.QUERY_GET_RENTAL_BY_ID_BOOK)
+})
+
 @Entity
 @Table(name = "RENTAL")
 @Getter
@@ -16,10 +20,14 @@ import java.util.Date;
 @NoArgsConstructor
 public class Rental implements Serializable {
 
+    public static final String GET_RENTAL_BY_ID_BOOK = "Rental.get_rental_by_id_book";
+    public static final String QUERY_GET_RENTAL_BY_ID_BOOK = "select r from Rental r where r.book = :book";
+
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     private Date rental_time;
 
     @NotNull

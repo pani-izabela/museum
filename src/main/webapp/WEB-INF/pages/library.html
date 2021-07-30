@@ -45,7 +45,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6 text-center">
             <a class="btn w-25 btn-light float-left" onclick="javascript:history.back(-1)">Wróć</a>
-            <a id="borrowBtn" sec:authorize="hasAuthority('client')" role="button" class="btn btn-light pink-background w-25 float-right">Wypożycz</a>
+            <a id="borrowBtn" sec:authorize="hasAuthority('client')" role="button" class="btn btn-light pink-background w-25 float-right" onclick="borrow()">Wypożycz</a>
             <a id="extendBtn" sec:authorize="hasAuthority('client')" role="button" class="btn btn-light orange-background w-25 mr-2 float-right">Przedłuż</a>
             <a id="updateBtn" sec:authorize="hasAnyAuthority('admin','director', 'employee')" role="button" class="btn btn-light pink-background w-25 float-right">Aktualizuj</a>
         </div>
