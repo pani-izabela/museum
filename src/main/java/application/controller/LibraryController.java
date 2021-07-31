@@ -39,7 +39,6 @@ public class LibraryController {
     @PostMapping(value = "/borrowBook", produces = "text/plain;charset=UTF-8")
     public ResponseEntity<Object> borrowBook(String title) throws ParseException {
         ResponseEntity<Object> resp = libraryService.borrowBook(title);
-        libraryService.getBooks();
         return resp;
     }
 

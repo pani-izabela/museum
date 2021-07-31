@@ -45,9 +45,9 @@ public class LibraryServiceImpl implements LibraryService{
     public ResponseEntity<Object> borrowBook(String title) throws ParseException {
 
         //nie powinnam robić nowego rentala tylko odnaleźć tego stworzonego przy książce o id? i jego zaktualizować
-        Book book = libraryDAO.findByTitle(title);
+        Book book = bookDAO.findByTitle(title);
         book.setStatus(false);
-        bookDAO.updateBook(book);
+        //bookDAO.updateBook(book);
 
         Rental rental = rentalDAO.findByBook(book);
         Date date = new Date();

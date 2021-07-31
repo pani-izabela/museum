@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public class LibraryDAOImpl implements LibraryDAO{
 
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private EntityManager em;
 
     @Override
@@ -30,7 +30,7 @@ public class LibraryDAOImpl implements LibraryDAO{
         }
     }
 
-    @Override
+   /* @Override
     @Transactional(readOnly = true)
     public Book findByTitle(String title) {
         try {
@@ -40,5 +40,5 @@ public class LibraryDAOImpl implements LibraryDAO{
         } catch (NoResultException e) {
             return null;
         }
-    }
+    }*/
 }

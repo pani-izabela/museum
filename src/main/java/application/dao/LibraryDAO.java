@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface LibraryDAO {
     List<LibraryView> getBooks();
-    Book findByTitle(String title);
+    //Book findByTitle(String title);
 }

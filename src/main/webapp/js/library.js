@@ -94,7 +94,7 @@ function borrowBook(title) {
             "title": title
         },
         success: function () {
-            //getBooks()
+            getBooks()
             alert("Wypożyczyłeś książkę pt. " + title)
         },
         error: function (xhr) {

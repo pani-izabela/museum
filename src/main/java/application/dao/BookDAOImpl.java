@@ -25,4 +25,16 @@ public class BookDAOImpl implements BookDAO{
             return null;
         }
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Book findByTitle(String title) {
+        try {
+            return em.createNamedQuery(Book.GET_BOOK_BY_TITLE, Book.class)
+                    .setParameter("title", title)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }
