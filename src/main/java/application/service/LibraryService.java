@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface LibraryService {
     List<BooksDTO> getBooks();
-    ResponseEntity<Object> borrowBook(String title) throws ParseException;
+    ResponseEntity<Object> borrowBook(String title);
 }

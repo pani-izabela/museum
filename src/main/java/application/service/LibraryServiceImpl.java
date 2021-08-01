@@ -11,10 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.DateUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -42,20 +44,14 @@ public class LibraryServiceImpl implements LibraryService{
     }
 
     @Override
-    public ResponseEntity<Object> borrowBook(String title) throws ParseException {
-
-        //nie powinnam robić nowego rentala tylko odnaleźć tego stworzonego przy książce o id? i jego zaktualizować
+    public ResponseEntity<Object> borrowBook(String title) {
         Book book = bookDAO.findByTitle(title);
         book.setStatus(false);
-        //bookDAO.updateBook(book);
-
         Rental rental = rentalDAO.findByBook(book);
-        Date date = new Date();
-        rental.setRental_time(date);
+        rental.setRental_time(getBorrowingData());
         rental.setBook(book);
         rental.setClient(getClient());
         rentalDAO.updateRental(rental);
-        getBooks();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -84,6 +80,16 @@ public class LibraryServiceImpl implements LibraryService{
         else {
             return format1.format(date);
         }
+    }
+
+    private Date getBorrowingData(){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.MONTH, 1);
+        return cal.getTime();
     }
 
     private Client getClient(){
