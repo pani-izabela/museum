@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service("libraryService")
 public class LibraryServiceImpl implements LibraryService{
@@ -53,6 +54,23 @@ public class LibraryServiceImpl implements LibraryService{
         rental.setClient(getClient());
         rentalDAO.updateRental(rental);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @Override
+    public ResponseEntity<Object> checkBook(String title) {
+        Book book = bookDAO.findByTitle(title);
+        Date actualDate = new Date();
+        Date deadlineForReturn = rentalDAO.findByBook(book).getRental_time();
+
+        long diffInMillies = Math.abs(deadlineForReturn.getTime() - actualDate.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+        if(diff<=3){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else
+            return null;
     }
 
 

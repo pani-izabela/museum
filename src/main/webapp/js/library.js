@@ -1,5 +1,8 @@
 $(document).ready(function () {
     getBooks();
+    $('#extendBtn').hide();
+    //checkPossibilityExtension();
+    showBtn();
 })
 
 var inaccessible = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle-fill" style="color: red" viewBox="0 0 16 16">\n' +
@@ -99,6 +102,45 @@ function borrowBook(title) {
         },
         error: function (xhr) {
             alert(xhr.responseText);
+        }
+    })
+}
+
+function checkPossibilityExtension() {
+    var table = $('#booksTable').DataTable();
+    var array = [];
+    var data = table.rows({selected:  true}).data();
+    array.push(data[0].title)
+    array.push(data[0].status)
+    checkBook(array[0]);
+}
+
+function checkBook(data) {
+    $.ajax({
+        url: "http://localhost:8080/chceckBook",
+        method: "POST",
+        scriptCharset: "utf-8",
+        data: {
+            "title": data
+        },
+        success: function () {
+            alert('Wydłużyłeś date')
+        },
+        error: function () {
+            alert('Nie możesz przedłużyć terminu')
+        }
+    })
+}
+
+function showBtn() {
+    $('#booksTable').on("click", function () {
+        var elementExist = $('.select-info').length==0
+        //i jeśli status = false
+        if(elementExist){
+            $("#extendBtn").show();
+        }
+        else if(!elementExist){
+            $("#extendBtn").hide();
         }
     })
 }

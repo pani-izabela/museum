@@ -9,4 +9,5 @@ import java.util.List;
 public interface LibraryService {
     List<BooksDTO> getBooks();
     ResponseEntity<Object> borrowBook(String title);
+    ResponseEntity<Object> checkBook(String title);
 }

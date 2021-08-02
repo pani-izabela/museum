@@ -35,6 +35,19 @@ public class LibraryController {
         return libraryService.getBooks();
     }
 
+    /*@ApiOperation(value = "Check the possibility of extension the borrowing of the book")
+    @GetMapping(value = "/showBtn")
+    public boolean checkPossibilityExtension(){
+        return libraryService.checkPossibilityExtension();
+    }
+*/
+    @ApiOperation(value = "Provides the title of the book to see if it can be renewed")
+    @PostMapping(value = "/checkBook", produces = "text/plain;charset=UTF-8")
+    public ResponseEntity<Object> extendBook(String title) {
+        ResponseEntity<Object> resp = libraryService.checkBook(title);
+        return resp;
+    }
+
     @ApiOperation(value = "Saves the book in the client's account")
     @PostMapping(value = "/borrowBook", produces = "text/plain;charset=UTF-8")
     public ResponseEntity<Object> borrowBook(String title) {
